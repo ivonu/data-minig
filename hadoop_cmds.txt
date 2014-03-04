@@ -1,13 +1,21 @@
+-- test if python working
+	cat data/1ws3111.txt | ./wc_mapper.py | sort | ./wc_reducer.py
+
+
+
 -- when running accessible via 
-jobtracker:  http://localhost:50030
-hadoop overview: http://localhost:50060
-hdfs:  http://localhost:50070
+jobtracker:  		http://localhost:50030
+hadoop overview: 	http://localhost:50060
+hdfs:  			http://localhost:50070
 
 -- hadoop useful commands
 
 
 - first remove temporary dir
-rm -rf {hadoop.tmp.dir} defined in conf/core-site.xml
+	rm -rf {hadoop.tmp.dir} defined in conf/core-site.xml
+
+
+
 if not defined: add following property:
 
 <property>
@@ -16,23 +24,23 @@ if not defined: add following property:
 </property>
 
 - format dfs
-bin/hadoop namenode -format
+	bin/hadoop namenode -format
 
 - stop/start
-bin/start-all.sh 
-bin/stop-all.sh
+	bin/start-all.sh 
+	bin/stop-all.sh
 
 
 - create dir in hdfs
 
-bin/hadoop dfs -mkdir hw1
-bin/hadoop dfs -mkdir hw1/data
+	bin/hadoop dfs -mkdir hw1
+	bin/hadoop dfs -mkdir hw1/data
 
 - import data from local directory to dfs hw1/data
-bin/hadoop dfs -copyFromLocal ~/Downloads/hw1-data/* hw1/data
+	bin/hadoop dfs -copyFromLocal ~/Downloads/hw1-data/* hw1/data
 
 
 - run map reduce ond data, be careful: the arguments for -file -mapper and -reducer are on the local file system, the argument for -input and -output is on DFS
-bin/hadoop jar contrib/streaming/hadoop-streaming-1.2.1.jar -file ~/data-minig/hw1/wc_mapper.py -mapper ~/data-minig/hw1/wc_mapper.py -file ~/data-minig/hw1/wc_reducer.py  -reducer ~/data-minig/hw1/wc_reducer.py -input hw1/data -output hw1/out1
+	bin/hadoop jar contrib/streaming/hadoop-streaming-1.2.1.jar -file ~/data-minig/hw1/wc_mapper.py -mapper ~/data-minig/hw1/wc_mapper.py -file ~/data-minig/hw1/wc_reducer.py  -reducer ~/data-minig/hw1/wc_reducer.py -input hw1/data -output hw1/out1
 
 

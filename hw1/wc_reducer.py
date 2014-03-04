@@ -1,30 +1,25 @@
 #!/usr/bin/env python2
+from operator import itemgetter
 import sys
 
-# maps words to their counts
-word2count = {}
 
-# input comes from STDIN
+current_word = None
+current_count = 0
+word = None
 for line in sys.stdin:
-    # remove leading and trailing whitespace
     line = line.strip()
-
-    # parse the input we got from mapper.py
     word, count = line.split('\t', 1)
-    # convert count (currently a string) to int
-    try:
-        count = int(count)
-    except ValueError:
-        continue
+    count = int(count)
 
-    try:
-        word2count[word] += count
-    except:
-        word2count[word] = count
+    if current_word == word:
+        current_count += count
+    else:
+        if current_word:
+            print '%s\t%s' % (current_word, current_count)
+        current_count = count
+        current_word = word
 
-# write the tuples to stdout
-# Note: they are unsorted
-for word in word2count.keys():
-    print '%s\t%s' % ( word, word2count[word] )
+if current_word == word:
+    print '%s\t%s' % (current_word, current_count)
 
 
