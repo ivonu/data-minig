@@ -1,4 +1,4 @@
--- when running accessible via
+-- when running accessible via 
 jobtracker:  http://localhost:50030
 hadoop overview: http://localhost:50060
 hdfs:  http://localhost:50070
