@@ -2,6 +2,9 @@
 from operator import itemgetter
 import sys
 
+# DEBUG: read from file in argument instead of stdin
+if len(sys.argv) > 1:
+    sys.stdin = open(sys.argv[1], 'r')
 
 current_word = None
 current_count = 0
