@@ -2,6 +2,10 @@
 import sys
 import re
 
+# DEBUG: read from file in argument instead of stdin
+if len(sys.argv) > 1:
+    sys.stdin = open(sys.argv[1], 'r')
+
 p = re.compile('[a-z]+')
 #--- get all lines from stdin ---
 for line in sys.stdin:
@@ -14,4 +18,4 @@ for line in sys.stdin:
         word = word.lower()
         m = p.match(word)
         if m:
-            print  '%s\t%s' % (m.group(0), "1")
+            print '%s\t%s' % (m.group(0), "1")
