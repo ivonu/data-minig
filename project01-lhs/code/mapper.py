@@ -22,27 +22,14 @@ if len(sys.argv) > 1:
 # r: band width
 # b: nr of bands
 # k: nr of  permutation-hash functions
-# n: number of buckets ?
+# TODO: n: number of buckets ?
+# c: total number of shingles possible
 r = 16
 b = 16
 k = r * b
 n = 1000
-
-
-
-# total number of shingles possible
 c = 10000
 
-
-# this is a function definition
-# for each video we need to generate a column in our signature matrix
-# use algorithm from dm-02-minhash-annotated.pdf page 47
-# Initialize to infinity
-# for each column c - video -already in outer for loop
-#   for each row r - shingle
-#     if c has 1 in row r
-#       for each hash function h_i do
-#         M (i, c) := min( h_i(r), M(i,c) );
 
 def hash_shingle(hash_fn, shingle):
     return (hash_fn[0] * shingle + hash_fn[1]) % c
@@ -51,12 +38,11 @@ def hash_shingle(hash_fn, shingle):
 def hash_band(hash_fns, vector):
     bucket_nr = 0
     for i in range(r):
-        bucket_nr += (hash_fns[i][0] * vector[i] * hash_fns[i][1] )
+        bucket_nr += (hash_fns[i][0] * vector[i] * hash_fns[i][1]) % n
     return int(bucket_nr % n)
 
 
 def partition(video_id, shingles, perm_hash_fns, band_hash_fns):
-    k = perm_hash_fns.shape[0]
     signature = np.ones((k, 1))
     signature[:] = 10001
 
@@ -81,15 +67,16 @@ def partition(video_id, shingles, perm_hash_fns, band_hash_fns):
 #         [a_1 b_1]
 #         [....]
 #         [a_k-1 b_k-1]
-def init_permutation_hashes(k):
-    a = rand(k, 1) * 1000
-    b = rand(k, 1) * 10000
+def init_permutation_hashes(num_hashes):
+    a = rand(num_hashes, 1) * 1000
+    b = rand(num_hashes, 1) * 10000
     return np.floor(np.hstack([a, b]))
 
 
-def init_band_hashes(r):
-    a = rand(r, 1) * 1000
-    b = rand(r, 1) * 10000
+# TODO maybe we need som other constants than 1000 and 10000
+def init_band_hashes(num_hashes):
+    a = rand(num_hashes, 1) * 1000
+    b = rand(num_hashes, 1) * 10000
     return np.floor(np.hstack([a, b]))
 
 
@@ -99,7 +86,7 @@ if __name__ == "__main__":
     np.random.seed(seed=42)
 
     perm_hash_fns = init_permutation_hashes(k)
-    band_hash_fns = init_band_hashes(b)
+    band_hash_fns = init_band_hashes(r)
 
     for line in sys.stdin:
         line = line.strip()
