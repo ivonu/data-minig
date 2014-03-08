@@ -5,8 +5,8 @@ close all;
 
 %% parameters
 s = [0:0.001:1];
-r = 32;
-b = 8;
+r = 16;
+b = 16;
 
 y = 1 - (1 - s.^r).^b;
 

@@ -1,7 +1,8 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2
+
+import sys
 
 import numpy as np
-import sys
 
 
 def print_duplicates(videos):
@@ -10,6 +11,7 @@ def print_duplicates(videos):
         for j in xrange(i + 1, len(unique)):
             print "%d\t%d" % (min(unique[i], unique[j]),
                               max(unique[i], unique[j]))
+
 
 last_key = None
 key_count = 0

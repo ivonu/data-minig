@@ -1,7 +1,8 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2
+
+import sys
 
 import numpy as np
-import sys
 
 
 def partition(video_id, shingles):

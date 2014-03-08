@@ -1,7 +1,10 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2
+
+import sys
 
 import numpy as np
-import sys
+from numpy.random import rand
+
 
 
 # for local debugging purpouses
@@ -15,28 +18,79 @@ if len(sys.argv) > 1:
 # Parameters
 #######################
 
-# number of permutation hash functions
-k = 5
+
+# r: band width
+# b: nr of bands
+# k: nr of  permutation-hash functions
+# n: number of buckets ?
+r = 16
+b = 16
+k = r * b
+n = 1000
+
 
 
 # total number of shingles possible
-c = 1000000
+c = 10000
 
 
 # this is a function definition
 # for each video we need to generate a column in our signature matrix
-def partition(video_id, shingles):
+# use algorithm from dm-02-minhash-annotated.pdf page 47
+# Initialize to infinity
+# for each column c - video -already in outer for loop
+#   for each row r - shingle
+#     if c has 1 in row r
+#       for each hash function h_i do
+#         M (i, c) := min( h_i(r), M(i,c) );
 
-    # pass is a null operation
-    pass
+def hash_shingle(hash_fn, shingle):
+    return (hash_fn[0] * shingle + hash_fn[1]) % c
 
 
-# create k
-def initPermutationhashes(numHashes):
+def hash_band(hash_fns, vector):
+    bucket_nr = 0
+    for i in range(r):
+        bucket_nr += (hash_fns[i][0] * vector[i] * hash_fns[i][1] )
+    return int(bucket_nr % n)
 
-    for i in range(numHashes):
-        #TODO generate hash funcitions h(x) = ax + b mod c
-        print i
+
+def partition(video_id, shingles, perm_hash_fns, band_hash_fns):
+    k = perm_hash_fns.shape[0]
+    signature = np.ones((k, 1))
+    signature[:] = 10001
+
+    for shingle in shingles:
+        for i in range(k):
+            signature[i] = min(hash_shingle(perm_hash_fns[i], shingle), signature[i])
+
+    # split signature column into bands
+    # foreach band_i in bands{
+    #       bucket-nr = h_band( signature in band_i)
+    #       idea: sort shingles to easier find false positives in reducer
+    #       emit key:bucket-nr + band-nr value: movie + all its shigles
+    for band in range(b):
+        bucket_nr = hash_band(band_hash_fns, signature[band * r:band * r + r])
+        print '%s:%s\t%s' % (bucket_nr, band, video_id)
+
+
+# create k [a b] tuples
+# a from 0 to 999
+# b from 0 to 9999
+# returns [a_0 b_0]
+#         [a_1 b_1]
+#         [....]
+#         [a_k-1 b_k-1]
+def init_permutation_hashes(k):
+    a = rand(k, 1) * 1000
+    b = rand(k, 1) * 10000
+    return np.floor(np.hstack([a, b]))
+
+
+def init_band_hashes(r):
+    a = rand(r, 1) * 1000
+    b = rand(r, 1) * 10000
+    return np.floor(np.hstack([a, b]))
 
 
 if __name__ == "__main__":
@@ -44,12 +98,13 @@ if __name__ == "__main__":
     # same seed when generating random numbers for the hash functions.
     np.random.seed(seed=42)
 
-    initPermutationhashes()
+    perm_hash_fns = init_permutation_hashes(k)
+    band_hash_fns = init_band_hashes(b)
 
     for line in sys.stdin:
         line = line.strip()
         video_id = int(line[6:15])
         shingles = np.fromstring(line[16:], sep=" ")
-        partition(video_id, shingles)
+        partition(video_id, shingles, perm_hash_fns, band_hash_fns)
 
 
