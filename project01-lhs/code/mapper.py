@@ -73,10 +73,10 @@ def init_permutation_hashes(num_hashes):
     return np.floor(np.hstack([a, b]))
 
 
-# TODO maybe we need som other constants than 1000 and 10000
+# TODO maybe we need som other constants than 1000 and 1000
 def init_band_hashes(num_hashes):
     a = rand(num_hashes, 1) * 1000
-    b = rand(num_hashes, 1) * 10000
+    b = rand(num_hashes, 1) * 1000
     return np.floor(np.hstack([a, b]))
 
 
