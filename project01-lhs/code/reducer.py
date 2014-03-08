@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 
-import numpy as np
 import sys
+
+import numpy as np
 
 
 def print_duplicates(videos):
@@ -26,6 +27,7 @@ for line in sys.stdin:
         duplicates.append(int(video_id))
     else:
         # Key changed (previous line was k=x, this line is k=y)
+        # todo: test for false positives
         print_duplicates(duplicates)
         duplicates = [int(video_id)]
         last_key = key
