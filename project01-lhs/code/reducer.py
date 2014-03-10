@@ -30,13 +30,12 @@ def print_duplicates(duplicates, vid_to_shingle_dict):
                 s_r = vid_to_shingle_dict[video_id_r]
 
                 s_intersect = s_l.intersection(s_r)
+                s_union = s_l.union(s_r)
 
-                assert isinstance(s_intersect, set)
                 num_elem_common = len(s_intersect)
-                num_elem_l = len(s_l)
-                num_elem_r = len(s_r)
+                num_elem_union = len(s_union)
 
-                if float(num_elem_common) / float(num_elem_l) > 0.85:
+                if float(num_elem_common) / float(num_elem_union) > 0.85:
                     print "%d\t%d" % (video_id_l, video_id_r)
 
 

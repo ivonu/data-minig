@@ -92,12 +92,11 @@ if __name__ == "__main__":
         line = line.strip()
         video_id = int(line[6:15])
         shingles = np.fromstring(line[16:], sep=" ")
-        shingles.sort();
 
         # construct shingle-string-value
         shingle_string = line[6:15];
         for shingle in shingles:
-            shingle_string += '-'+ str(int(shingle))
+            shingle_string += '-' + str(int(shingle))
 
         partition(video_id, shingles, perm_hash_fns, band_hash_fns, shingle_string)
 
