@@ -24,8 +24,8 @@ if len(sys.argv) > 1:
 # k: nr of  permutation-hash functions
 # TODO: n: number of buckets ?
 # c: total number of shingles possible
-r = 16
-b = 16
+r = 8
+b = 32
 k = r * b
 n = 1000
 c = 10000
