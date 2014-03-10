@@ -42,7 +42,7 @@ def hash_band(hash_fns, vector):
     return int(bucket_nr % n)
 
 
-def partition(video_id, shingles, perm_hash_fns, band_hash_fns):
+def partition(video_id, shingles, perm_hash_fns, band_hash_fns, shingle_string):
     signature = np.ones((k, 1))
     signature[:] = 10001
 
@@ -57,7 +57,7 @@ def partition(video_id, shingles, perm_hash_fns, band_hash_fns):
     #       emit key:bucket-nr + band-nr value: movie + all its shigles
     for band in range(b):
         bucket_nr = hash_band(band_hash_fns, signature[band * r:band * r + r])
-        print '%s:%s\t%s' % (bucket_nr, band, video_id)
+        print '%s:%s\t%s' % (bucket_nr, band, shingle_string)
 
 
 # create k [a b] tuples
@@ -92,6 +92,13 @@ if __name__ == "__main__":
         line = line.strip()
         video_id = int(line[6:15])
         shingles = np.fromstring(line[16:], sep=" ")
-        partition(video_id, shingles, perm_hash_fns, band_hash_fns)
+        shingles.sort();
+
+        # construct shingle-string-value
+        shingle_string = line[6:15];
+        for shingle in shingles:
+            shingle_string += '-'+ str(int(shingle))
+
+        partition(video_id, shingles, perm_hash_fns, band_hash_fns, shingle_string)
 
 
