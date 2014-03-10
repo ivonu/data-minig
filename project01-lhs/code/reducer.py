@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2
 
 import sys
 
@@ -16,6 +16,9 @@ last_key = None
 key_count = 0
 duplicates = []
 
+if len(sys.argv) > 1:
+    sys.stdin = open(sys.argv[1], 'r')
+
 for line in sys.stdin:
     line = line.strip()
     key, video_id = line.split("\t")
@@ -28,6 +31,8 @@ for line in sys.stdin:
     else:
         # Key changed (previous line was k=x, this line is k=y)
         # todo: test for false positives
+        # todo: remove identical lines
+        duplicates = set(duplicates)
         print_duplicates(duplicates)
         duplicates = [int(video_id)]
         last_key = key

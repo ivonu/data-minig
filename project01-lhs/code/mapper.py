@@ -8,7 +8,7 @@ from numpy.random import rand
 
 
 # for local debugging purpouses
-sys.stdin = open("../data/train.txt", 'r')
+#sys.stdin = open("../data/train.txt", 'r')
 
 # DEBUG: read from file in argument instead of stdin
 if len(sys.argv) > 1:
