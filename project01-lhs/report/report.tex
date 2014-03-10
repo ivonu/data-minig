@@ -18,15 +18,30 @@
 \renewcommand{\familydefault}{\sfdefault}
 
 \title{Data Mining: Learning from Large Data Sets - Spring Semester 2014}
-\author{member1@student.ethz.ch\\ member2@student.ethz.ch\\ member3@student.ethz.ch\\}
+\author{nivo@student.ethz.ch\\ ganzm@student.ethz.ch\\ rohrp@student.ethz.ch\\}
 \date{\today}
 
 \begin{document}
 \maketitle
 
 \section*{Approximate near-duplicate search using Locality Sensitive
-Hashing} Briefly describe the steps used to produce the solution. Feel
-free to add plots or screenshots if you think it's necessary. The
-report should contain a maximum of 2 pages.
+Hashing} 
+
+- Implemented as map-reduce solution
+- in mapper : 
+- - signature of each video calculated using min-hashing
+- - signature gets divided into bands
+- - use r=8 rows and b=32 bands
+- - - yields all true positives, but many false positives
+- - band gets hashed -> bucket-id (up to n=1000 buckets)
+- - emit key=bucket-id:band, value=video\_id [all shingles]
+
+[insert some nice results of mapper, e.g plot from matlab here]
+
+
+- in reducer
+- - remove all false positives by comparing shingles
+  - only emit true positives
+
 
 \end{document} 
