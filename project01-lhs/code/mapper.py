@@ -30,7 +30,7 @@ k = r * b
 n = 1000
 c = 10000
 
-
+# apply permutation on a single shingle
 def hash_shingle(hash_fn, shingle):
     return (hash_fn[0] * shingle + hash_fn[1]) % c
 
@@ -68,16 +68,16 @@ def partition(video_id, shingles, perm_hash_fns, band_hash_fns):
 #         [....]
 #         [a_k-1 b_k-1]
 def init_permutation_hashes(num_hashes):
-    a = rand(num_hashes, 1) * 1000
-    b = rand(num_hashes, 1) * 10000
-    return np.floor(np.hstack([a, b]))
+    _a = rand(num_hashes, 1) * 1000
+    _b = rand(num_hashes, 1) * 10000
+    return np.floor(np.hstack([_a, _b]))
 
 
 # TODO maybe we need som other constants than 1000 and 1000
 def init_band_hashes(num_hashes):
-    a = rand(num_hashes, 1) * 1000
-    b = rand(num_hashes, 1) * 1000
-    return np.floor(np.hstack([a, b]))
+    _a = rand(num_hashes, 1) * 1000
+    _b = rand(num_hashes, 1) * 1000
+    return np.floor(np.hstack([_a, _b]))
 
 
 if __name__ == "__main__":
