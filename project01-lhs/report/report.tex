@@ -44,11 +44,12 @@ The mapper creates a signature vector of a video. This signature
 vector is afterwards subdivided into $b$ bands having $r$ elements that get
 hashed. Each band and its hash are then emitted.
 
-The signature is calculated using min-hashing: 
+These are the steps in more detail:
 
 \begin{enumerate} 
 
-\item As \autoref{fig:func} shows, choosing $b=32$ and $r=8$ yields no true positives.
+\item As \autoref{fig:func} shows, choosing $b=32$ and $r=8$ forgets no true
+positives.
 
 \begin{figure}
 \centering
@@ -56,15 +57,15 @@ The signature is calculated using min-hashing:
 \caption{$1-(1-x^r)^b$}\label{fig:func}
 \end{figure}
 
-\item We create $k = b \cdot r$ hashfunctions of the form $ a_px + b_p \mod c_p$ where
-$a_p=rand(0,999), b_p=rand(0,99999)$, $c_p=10000$ and $rand(x,y)$ is random variable
-drawn from a uniform distribution between $x$ and $y$. These hashfunctions are
-used to calculate the permutations in min-hashing.
+\item We create $k = b \cdot r$ hashfunctions of the form $ a_px + b_p \mod c_p$
+where $a_p=rand(0,999), b_p=rand(0,99999)$, $c_p=10000$ and $rand(x,y)$ is
+random variable drawn from a uniform distribution between $x$ and $y$. These
+hashfunctions are used to calculate the permutations in min-hashing.
 
 \item We create $r$ hashfunctions of the form $ a_bx + b_b \mod c_b$ where
-$a_b=rand(0,999), b_b=rand(0,999)$, $c_b=1000$ and $rand(x,y)$ is random variable
-drawn from a uniform distribution between $x$ and $y$. These hashfunctions are
-used to calculate the band hashes before emitting.
+$a_b=rand(0,999), b_b=rand(0,999)$, $c_b=1000$ and $rand(x,y)$ is random
+variable drawn from a uniform distribution between $x$ and $y$. These
+hashfunctions are used to calculate the band hashes before emitting.
 
 \item The signature is then created according to \autoref{alg:signature}
 
@@ -80,7 +81,8 @@ used to calculate the band hashes before emitting.
 
 \FOR{i in range(k)}
 
-\STATE{ $signature[i] =min ({a_p}_i \cdot shingle + {b_p}_i \mod c_p, signature[i])$}
+\STATE{ $signature[i] =min ({a_p}_i \cdot shingle + {b_p}_i \mod c_p,
+signature[i])$}
 
 \ENDFOR
 
@@ -103,7 +105,7 @@ the video with its corresponding shingles as value according to
 
 \STATE{ $band hash = \sum_{i=1}^{len(vector)}{ {a_b}_i\cdot vector[i] + {b_b}_i \mod c}$}
 
-\STATE{ emit $key=[band hash, band]$ $value=[video_id, shingles]$ }
+\STATE{ emit $key=[band hash, band]$ $value=[video\_id, shingles]$ }
 
 \ENDFOR
 
@@ -120,7 +122,7 @@ the reported similar videos using the jaccard distance:
 
 \begin{enumerate}
 
-\item gather all videos with the same keys in a collection $duplicates$
+\item gather all videos with the same key in a collection $duplicates$
 \item emit similar videos like shown in \autoref{alg:reducer}
 
 \begin{algorithm}
@@ -133,14 +135,14 @@ the reported similar videos using the jaccard distance:
 
 \IF{$duplicates[i].video\_id < duplicates[j].video\_id$}
 
-\STATE{ $shinlges\_left = duplicates[i].shingles$}
-\STATE{ $shinlges\_right = duplicates[j].shingles$}
+\STATE{ $shingles\_left = duplicates[i].shingles$}
+\STATE{ $shingles\_right = duplicates[j].shingles$}
 
 \STATE{ $distance = \frac{\left| shingles\_left \cap shingles\_right \right|}{\left| shingles\_left \cup shingles\_right \right|}$}
 
 \IF{$distance > 0.85$}
 
-\STATE{ emit duplicates[i].video\_id duplicates[j]video\_id }
+\STATE{ emit duplicates[i].video\_id duplicates[j].video\_id }
 
 \ENDIF
 
