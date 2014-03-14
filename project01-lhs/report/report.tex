@@ -48,8 +48,7 @@ These are the steps in more detail:
 
 \begin{enumerate} 
 
-\item As \autoref{fig:func} shows, choosing $b=32$ and $r=8$ forgets no true
-positives.
+\item As \autoref{fig:func} shows, choosing $b=32$ and $r=8$ does not miss any true positives.
 
 \begin{figure}
 \centering
@@ -60,7 +59,7 @@ positives.
 \item We create $k = b \cdot r$ hashfunctions of the form $ a_px + b_p \mod c_p$
 where $a_p=rand(0,999), b_p=rand(0,99999)$, $c_p=10000$ and $rand(x,y)$ is
 random variable drawn from a uniform distribution between $x$ and $y$. These
-hashfunctions are used to calculate the permutations in min-hashing.
+hashfunctions are used to calculate the permutations used for min-hashing.
 
 \item We create $r$ hashfunctions of the form $ a_bx + b_b \mod c_b$ where
 $a_b=rand(0,999), b_b=rand(0,999)$, $c_b=1000$ and $rand(x,y)$ is random
