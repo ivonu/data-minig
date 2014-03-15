@@ -36,10 +36,8 @@ def hash_shingle(hash_fn, shingle):
 
 
 def hash_band(hash_fns, vector):
-    bucket_nr = 0
-    for i in range(r):
-        bucket_nr += (hash_fns[i][0] * vector[i] * hash_fns[i][1]) % n
-    return int(bucket_nr % n)
+    bucket_nr = sum(((hash_fns[i][0] * vector[i] * hash_fns[i][1]) % n) for i in range(r))
+    return int(bucket_nr) % n
 
 
 def partition(video_id, shingles, perm_hash_fns, band_hash_fns, shingle_string):
@@ -94,10 +92,7 @@ if __name__ == "__main__":
         shingles = np.fromstring(line[16:], sep=" ")
 
         # construct shingle-string-value
-        shingle_string = line[6:15];
-        for shingle in shingles:
-            shingle_string += '-' + str(int(shingle))
-
+        shingle_string = "%s-%s" % (line[6:15], "-".join([str(int(s)) for s in shingles]) )
         partition(video_id, shingles, perm_hash_fns, band_hash_fns, shingle_string)
 
 
