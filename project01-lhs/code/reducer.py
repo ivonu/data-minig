@@ -12,33 +12,24 @@ duplicates = []
 if len(sys.argv) > 1:
     sys.stdin = open(sys.argv[1], 'r')
 
-
-vid_to_shingle_dict = dict();
+vid_to_shingle_dict = {};
 
 
 def print_duplicates(duplicates, vid_to_shingle_dict):
-
     for video_id_l in duplicates:
-            for video_id_r in duplicates:
-                if video_id_l == video_id_r:
-                    continue
+        for video_id_r in [r for r in duplicates if video_id_l < r]:
 
-                if video_id_l > video_id_r:
-                    continue
+            s_l = vid_to_shingle_dict[video_id_l]
+            s_r = vid_to_shingle_dict[video_id_r]
 
-                s_l = vid_to_shingle_dict[video_id_l]
-                s_r = vid_to_shingle_dict[video_id_r]
+            s_intersect = s_l.intersection(s_r)
+            s_union = s_l.union(s_r)
 
-                s_intersect = s_l.intersection(s_r)
-                s_union = s_l.union(s_r)
+            num_elem_common = len(s_intersect)
+            num_elem_union = len(s_union)
 
-                num_elem_common = len(s_intersect)
-                num_elem_union = len(s_union)
-
-                if float(num_elem_common) / float(num_elem_union) > 0.85:
-                    print "%d\t%d" % (video_id_l, video_id_r)
-
-
+            if float(num_elem_common) / float(num_elem_union) > 0.85:
+                print "%d\t%d" % (video_id_l, video_id_r)
 
 
 for line in sys.stdin:
