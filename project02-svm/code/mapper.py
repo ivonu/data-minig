@@ -14,6 +14,7 @@ if len(sys.argv) > 1:
 # This function has to either stay in this form or implement the
 # feature mapping. For details refer to the handout pdf.
 def transform(x_original):
+    # x_original = np.append(x_original, 1)
     return x_original
 
 
@@ -45,7 +46,7 @@ def process_junk(x_arr,y_arr, k, _lambda, w, t):
     # project w back into our 1/lambda ball
 
     w2norm = np.linalg.norm(w, ord=2)
-    w = min(1, (1 /  np.sqrt(_lambda)) / w2norm) * w
+    w = min(1, (1 / np.sqrt(_lambda)) / w2norm) * w
 
     return w
 
@@ -105,10 +106,10 @@ def pegasos(_lambda, k):
 if __name__ == "__main__":
 
     # Parameter lambda - controls accuracy somehow
-    _lambda = 3
+    _lambda = 3.0
 
     # Parameter k batch size - defines how many rows are learnt at once
-    k = 50
+    k = 1000
 
     w_hat = pegasos(_lambda, k)
 

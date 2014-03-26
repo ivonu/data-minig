@@ -1,3 +1,5 @@
+#!/usr/bin/env python2.7
+
 import numpy as np
 
 def img_tag(clazz, counter):
