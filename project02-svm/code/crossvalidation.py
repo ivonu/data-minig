@@ -74,10 +74,10 @@ if __name__ == "__main__":
 
     for _lambda in lambdas:
         err = svm_cross(_lambda)
-        print "lambda %f has error %f" % (_lambda, err )
+        print "lambda %f has error %f, %f correct" % (_lambda, err, (1 - err) )
         if (err < errmin):
             errmin = err
             best_lambda = _lambda
 
-    print 'lambda %f is best, with error %f' % (best_lambda, errmin)
+    print 'lambda %f is best, with error %f, %f correct' % (best_lambda, errmin, (1 - err))
 
