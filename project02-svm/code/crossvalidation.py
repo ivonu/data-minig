@@ -8,6 +8,10 @@ import numpy as np
 import mapper as map
 
 
+BUCKET_FILE_PREFIX = "../data/training"
+
+TRAINING_TXT = "../data/training.txt"
+
 pegasos_k = 1000
 k = 10
 bucket_size = 10000
@@ -59,9 +63,9 @@ def svm_cross(_lambda):
 
 if __name__ == "__main__":
     #split data to k buckets
-    with open("../data/training.txt") as f:
+    with open(TRAINING_TXT) as f:
         for fcnt in range(k):
-            bucket_file = "../data/training" + str(fcnt)
+            bucket_file = BUCKET_FILE_PREFIX + str(fcnt)
             bucket_files.append(bucket_file)
             with open(bucket_file, 'w') as o:
                 for lncnt in range(bucket_size):
