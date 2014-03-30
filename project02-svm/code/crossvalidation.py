@@ -1,5 +1,5 @@
 #!/usr/bin/env python2.7
-from __future__ import print_function
+
 import sys
 import fileinput
 
@@ -33,7 +33,7 @@ def calculate_err_on(test_file, w_hat):
 
 
 def call_pegasos(bucket_no, _lambda):
-    # caclulate training set (all but set bucket_no)
+    # calculate training set (all but set bucket_no)
     training_set = []
     test_file = None
     for i, bucket in enumerate(bucket_files):
@@ -70,9 +70,10 @@ if __name__ == "__main__":
 
     for _lambda in lambdas:
         err = svm_cross(_lambda)
+        print "lambda %f has error %f" % (_lambda, err )
         if (err < errmin):
             errmin = err
             best_lambda = _lambda
 
-    print('%s', best_lambda)
+    print 'lambda %f is best, with error %f' % (best_lambda, errmin)
 
