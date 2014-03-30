@@ -5,7 +5,7 @@ import fileinput
 
 import numpy as np
 
-import mapper as map
+import mapper as mapper
 
 
 BUCKET_FILE_PREFIX = "../data/training"
@@ -17,7 +17,7 @@ k = 10
 bucket_size = 10000
 errmin = sys.float_info.max
 best_lambda = 0
-lambdas = [1, 0.5, 0.1, 0.05, 0.01, 0.005, 0.001]
+lambdas = [1, 0.1, 0.01, 0.001, 0.0001, 0.00001]
 bucket_files = []
 
 
@@ -28,7 +28,7 @@ def calculate_err_on(test_file, w_hat):
         for line in test_input:
             linecount += 1
             y_i = 1. if line[0:1] == '+' else -1.
-            x_i = map.transform(np.fromstring(line[2:], sep=" "))
+            x_i = mapper.transform(np.fromstring(line[2:], sep=" "))
             dot_prod = np.dot(w_hat, x_i)
             if (dot_prod < 0 and y_i == 1) or (dot_prod > 0 and y_i == -1):
                 wrong_classified += 1
@@ -48,7 +48,7 @@ def call_pegasos(bucket_no, _lambda):
 
     # use training set as input
     inputstream = fileinput.input(training_set)
-    w_hat = map.pegasos(_lambda, pegasos_k, inputstream)
+    w_hat = mapper.pegasos(_lambda, pegasos_k, inputstream)
 
     return calculate_err_on(test_file, w_hat)
 
@@ -74,10 +74,10 @@ if __name__ == "__main__":
 
     for _lambda in lambdas:
         err = svm_cross(_lambda)
-        print "lambda %f has error %f, %f correct" % (_lambda, err, (1 - err) )
+        print "lambda %f has error %f -> %f correct" % (_lambda, err, (1 - err) )
         if (err < errmin):
             errmin = err
             best_lambda = _lambda
 
-    print 'lambda %f is best, with error %f, %f correct' % (best_lambda, errmin, (1 - err))
+    print 'lambda %f is best, with error %f -> %f correct' % (best_lambda, errmin, (1 - err))
 
