@@ -49,7 +49,7 @@ def process_junk(x_arr, y_arr, k, _lambda, w, t):
 # Parameter k      - batch size - defines how many rows are learnt at once
 #
 # returns w_hat
-def pegasos(_lambda, k):
+def pegasos(_lambda, k, inpustream):
     y = []
     x = []
     t = 0
@@ -59,7 +59,7 @@ def pegasos(_lambda, k):
     w = np.zeros(len(w))
 
     i = 0
-    for line in sys.stdin:
+    for line in inpustream:
         line = line.strip()
 
         i += 1
@@ -100,7 +100,7 @@ if __name__ == "__main__":
     # Parameter k batch size - defines how many rows are learnt at once
     k = 1000
 
-    w_hat = pegasos(_lambda, k)
+    w_hat = pegasos(_lambda, k, sys.stdin)
 
     w_hat_string = " ".join([repr(s) for s in w_hat])
 
