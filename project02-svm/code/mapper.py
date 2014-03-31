@@ -25,13 +25,13 @@ if len(sys.argv) > 1:
 # This function has to either stay in this form or implement the
 # feature mapping. For details refer to the handout pdf.
 def transform(x_original):
-    omega = np.random.multivariate_normal(mean, cov, size=m)
-    b = np.random.uniform(0, pi_times_2, size=m)
-    dotProd = np.dot(omega, x_original)
-    retval = sqrt2 * np.cos(dotProd + b)
-    retval /= np.sqrt(dims)
-    # return   np.append(x_original, 1.)
-    return retval
+    # omega = np.random.multivariate_normal(mean, cov, size=m)
+    # b = np.random.uniform(0, pi_times_2, size=m)
+    # dotProd = np.dot(omega, x_original)
+    # retval = sqrt2 * np.cos(dotProd + b)
+    # retval /= np.sqrt(dims)
+    # return retval
+    return x_original
 
 
 #Parameter x: list of ndarray
