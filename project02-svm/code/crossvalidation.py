@@ -12,7 +12,7 @@ BUCKET_FILE_PREFIX = "../data/training"
 
 TRAINING_TXT = "../data/training.txt"
 
-pegasos_k = 1000
+pegasos_k = 10000
 k = 10
 bucket_size = 10000
 errmin = sys.float_info.max
