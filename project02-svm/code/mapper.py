@@ -25,11 +25,15 @@ def transform(x_original):
     # mean, std, #zeros
 
     #x_original *= 10000
+    z = np.abs(x_original)
     x_original -= means
     x_original /= stds
     zeros = len(x_original) - np.count_nonzero(x_original)
 
     result_array = x_original
+   # result_array = np.mean(x_original)
+   # result_array = np.sqrt(np.abs(x_original))
+    result_array = np.append(result_array, np.sqrt(np.abs(x_original)))
     result_array = np.append(result_array, np.mean(x_original))
     result_array = np.append(result_array, np.std(x_original))
     result_array = np.append(result_array, np.min(x_original))
@@ -98,7 +102,7 @@ def pegasos(_lambda, k, inpustream):
         x_i = transform(x_i)
 
         # y * <w, x> < 1
-        if y_i * np.dot(w, x_i) < 0.:
+        if y_i * np.dot(w, x_i) < 1.:
             # only add miss classified samples
             x.append(x_i)
             y.append(y_i)
