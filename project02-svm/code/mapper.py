@@ -37,7 +37,6 @@ def transform(x_original):
     result_array = np.append(result_array, np.median(x_original))
     result_array = np.append(result_array, np.var(x_original))
     result_array = np.append(result_array, zeros)
-   # result_array = np.append(result_array, x_original[21]*x_original[21])
     result_array = np.append(result_array, 1)
 
     return result_array

@@ -5,19 +5,19 @@ import fileinput
 
 import numpy as np
 
-import mapper as mapper
+import mapper_copy as mapper
 
 
 BUCKET_FILE_PREFIX = "../data/training"
 
 TRAINING_TXT = "../data/training.txt"
 
-pegasos_k = 100
+pegasos_k = 10
 k = 10
 bucket_size = 10000
 errmin = sys.float_info.max
 best_lambda = 0
-lambdas = [1, 0.1, 0.01, 0.001, 0.0001, 0.00001]
+lambdas = [0.1, 1, 0.01, 0.001, 0.0001, 0.00001]
 bucket_files = []
 
 
