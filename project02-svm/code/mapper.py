@@ -5,33 +5,34 @@ import sys
 import numpy as np
 
 
-m = 50
-dims = 400
-mean = np.zeros(dims);
-cov = np.zeros((dims, dims))
-np.fill_diagonal(cov, 1)
-
-pi_times_2 = np.pi * 2
-sqrt2 = np.sqrt(2)
-
-
-
-
 # DEBUG: read from file in argument instead of stdin
 if len(sys.argv) > 1:
     sys.stdin = open(sys.argv[1], 'r')
 
+def square(x):
+    return x*x
+square = np.vectorize(square)
 
 # This function has to either stay in this form or implement the
 # feature mapping. For details refer to the handout pdf.
 def transform(x_original):
-    # omega = np.random.multivariate_normal(mean, cov, size=m)
-    # b = np.random.uniform(0, pi_times_2, size=m)
-    # dotProd = np.dot(omega, x_original)
-    # retval = sqrt2 * np.cos(dotProd + b)
-    # retval /= np.sqrt(dims)
-    # return retval
-    return x_original
+    #result_array = square(x_original)
+    #result_array = np.append(x_original, result_array)
+    # mean, std, #zeros
+
+    result_array = x_original * 1000
+
+    mean = np.mean(result_array)
+    std = np.std(result_array)
+
+    zeros = len(result_array) - np.count_nonzero(result_array)
+
+    result_array = np.append(result_array, mean)
+    result_array = np.append(result_array, std)
+    result_array = np.append(result_array, zeros)
+    result_array = np.append(result_array, 1)
+
+    return result_array
 
 
 #Parameter x: list of ndarray
@@ -74,6 +75,7 @@ def pegasos(_lambda, k, inpustream):
     # init w with zeros
     w = transform(np.random.rand(400))
     w = np.zeros(len(w))
+    w[0] = 1/np.sqrt(_lambda)
 
     i = 0
     for line in inpustream:
@@ -89,7 +91,7 @@ def pegasos(_lambda, k, inpustream):
         x_i = transform(x_i)
 
         # y * <w, x> < 1
-        if y_i * np.dot(w, x_i) < 1.:
+        if y_i * np.dot(w, x_i) < 0.:
             # only add miss classified samples
             x.append(x_i)
             y.append(y_i)
@@ -112,10 +114,10 @@ def pegasos(_lambda, k, inpustream):
 
 if __name__ == "__main__":
     # Parameter lambda - controls accuracy somehow
-    _lambda = 0.01
+    _lambda = 0.1
 
     # Parameter k batch size - defines how many rows are learnt at once
-    k = 1000
+    k = 10
 
     w_hat = pegasos(_lambda, k, sys.stdin)
 

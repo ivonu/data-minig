@@ -12,7 +12,7 @@ BUCKET_FILE_PREFIX = "../data/training"
 
 TRAINING_TXT = "../data/training.txt"
 
-pegasos_k = 10000
+pegasos_k = 100
 k = 10
 bucket_size = 10000
 errmin = sys.float_info.max
@@ -57,6 +57,7 @@ def svm_cross(_lambda):
     mean_err = 0
     for bucket_no in range(k):
         err = call_pegasos(bucket_no, _lambda)
+        print "error: %f" % err
         mean_err += err / k
     return mean_err
 
