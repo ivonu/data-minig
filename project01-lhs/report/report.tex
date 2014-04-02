@@ -5,6 +5,7 @@
 \usepackage{algorithm}
 \usepackage{algorithmic}
 \usepackage{epstopdf}
+\usepackage{subcaption}
 
 % Lengths and indenting
 \setlength{\textwidth}{16.5cm}
@@ -20,17 +21,16 @@
 
 \renewcommand{\familydefault}{\sfdefault}
 
-\title{Data Mining: Learning from Large Data Sets - Spring Semester 2014 Project 1}
+\title{Data Mining: Learning from Large Data Sets - Spring Semester 2014 Projects}
 \author{nivo@student.ethz.ch\\ ganzm@student.ethz.ch\\ rohrp@student.ethz.ch\\}
 \date{\today}
 
 \begin{document}
 \maketitle
 
-\section*{Approximate near-duplicate search using Locality Sensitive
-Hashing} 
+\section{Approximate near-duplicate search using Locality Sensitive Hashing} 
 
-This document explains the implementation of project 1. In this first project we
+This section explains the implementation of project 1. In this first project we
 were supposed to find near-duplicate videos using Locality Sensitive Hashing.
 The videos were given as a number of shingles that could be compared. The
 implementation was done in Python to be used in combination with the hadoop
@@ -52,7 +52,7 @@ These are the steps in more detail:
 
 \begin{figure}
 \centering
-\includegraphics[scale=.7]{func.eps}
+\includegraphics[scale=.5]{func.eps}
 \caption{$1-(1-x^r)^b$}\label{fig:func}
 \end{figure}
 
@@ -124,6 +124,7 @@ the reported similar videos using the jaccard distance:
 \item gather all videos with the same key in a collection $duplicates$
 \item emit similar videos like shown in \autoref{alg:reducer}
 
+
 \begin{algorithm}
 \caption{Emit similar videos}\label{alg:reducer}
 \begin{algorithmic} 
@@ -151,10 +152,58 @@ the reported similar videos using the jaccard distance:
 
 \ENDFOR
 
-\end{algorithmic} \end{algorithm}
+\end{algorithmic} 
+\end{algorithm}
+
 
 
 \end{enumerate}
 
+
+\section{Large-Scale Image Classification}
+This section describes the implementation of project 2.  The task was to implement binary classification on a large number of images.
+
+\subsection{Stochastic Gradient Descent}
+For the mapper functionality we chose to implement the PEGASOS \cite{shalev2011pegasos} algorithm discussed in the lecture.
+
+
+\subsection{Feature Normalisation}
+
+As a feature transformation we chose to normalize our data first. Based on the training data both mean and variance was calculated. These two calculated vectors were hard coded into the mapper function to apply the following transformation to the data:
+
+$$ x' = \phi(x) = { {x - \mu} \over \sigma} $$ 
+
+This transformation indeed seems to make sense when looking at figure \ref{fig:mean-var}. Both mean and variance are somewhat scattered.
+
+\begin{figure}[H]
+\centering
+\begin{subfigure}{.4\textwidth}
+  \centering
+  \includegraphics[scale=0.35]{../../project02-svm/doc/feature-mean.eps}
+  \caption{Feature Mean}
+  \label{fig:sub1}
+\end{subfigure}%
+\begin{subfigure}{.4\textwidth}
+  \centering
+  \includegraphics[scale=0.35]{../../project02-svm/doc/feature-variance.eps}
+  \caption{Feature Variance}
+  \label{fig:sub2}
+\end{subfigure}
+\caption{Mean and Variance of Feature Vectors}
+\label{fig:mean-var}
+\end{figure}
+
+
+\subsection{Additional Features Created}
+TODO
+
+
+\subsection{Crossvalidation}
+
+TODO
+
+
+\bibliographystyle{plain}
+\bibliography{literature}
 
 \end{document} 
