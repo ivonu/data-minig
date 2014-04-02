@@ -28,6 +28,7 @@ def transform(x_original):
     zeros = len(x_original) - np.count_nonzero(x_original)
 
     result_array = x_original
+    result_array = np.append(result_array, np.sqrt(np.abs(x_original)))
     result_array = np.append(result_array, np.mean(x_original))
     result_array = np.append(result_array, np.std(x_original))
     result_array = np.append(result_array, np.min(x_original))
