@@ -165,10 +165,11 @@ the reported similar videos using the jaccard distance:
 This section describes the implementation of project 2. The task was to
 implement binary classification on a large number of images.
 
-\subsection{Stochastic Gradient Descent}
+\subsection{mapper.py: Stochastic Gradient Descent}
 
 For the mapper functionality we chose to implement the PEGASOS
-\cite{shalev2011pegasos} algorithm discussed in the lecture.
+\cite{shalev2011pegasos} algorithm discussed in the lecture. The trained normal
+vector $w$ is emitted out of each mapper.
 
 
 \subsection{Feature transformation}
@@ -224,6 +225,10 @@ the sets mentioned before following features were added:
 \item median element
 \end{itemize}
 
+\subsection{reducer.py}
+
+Inside the reducer all trained vectors $w$ are gathered and averaged. The
+averaged vector is then emitted.
 
 \subsection{Cross validation}
 
