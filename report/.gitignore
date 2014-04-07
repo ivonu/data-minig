@@ -1,0 +1,11 @@
+*~
+.idea/*
+*aux
+*log
+*gz
+*out
+func-eps-converted-to.pdf
+*bbl
+*blg
+project2/feature-mean-eps-converted-to.pdf
+project2/feature-variance-eps-converted-to.pdf
