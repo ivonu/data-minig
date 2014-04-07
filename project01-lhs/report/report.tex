@@ -161,19 +161,33 @@ the reported similar videos using the jaccard distance:
 
 
 \section{Large-Scale Image Classification}
-This section describes the implementation of project 2.  The task was to implement binary classification on a large number of images.
+
+This section describes the implementation of project 2. The task was to
+implement binary classification on a large number of images.
 
 \subsection{Stochastic Gradient Descent}
-For the mapper functionality we chose to implement the PEGASOS \cite{shalev2011pegasos} algorithm discussed in the lecture.
+
+For the mapper functionality we chose to implement the PEGASOS
+\cite{shalev2011pegasos} algorithm discussed in the lecture.
 
 
-\subsection{Feature Normalisation}
+\subsection{Feature transformation}
 
-As a feature transformation we chose to normalize our data first. Based on the training data both mean and variance was calculated. These two calculated vectors were hard coded into the mapper function to apply the following transformation to the data:
+To reduce the classification error, meaning having less falsely classified
+images we implemented following transformations.
+
+\subsubsection{Normalisation}
+
+
+As a feature transformation we chose to normalize our data first. Based on the
+training data both mean and variance was calculated. These two calculated
+vectors were hard coded into the mapper function to apply the following
+transformation to the data:
 
 $$ x' = \phi(x) = { {x - \mu} \over \sigma} $$ 
 
-This transformation indeed seems to make sense when looking at figure \ref{fig:mean-var}. Both mean and variance are somewhat scattered.
+This transformation indeed seems to make sense when looking at figure
+\ref{fig:mean-var}. Both mean and variance are somewhat scattered.
 
 \begin{figure}[H]
 \centering
@@ -194,14 +208,29 @@ This transformation indeed seems to make sense when looking at figure \ref{fig:m
 \end{figure}
 
 
-\subsection{Additional Features Created}
-TODO
+\subsubsection{Additional features created}
+
+In addition to the already existing set of 400 features we added the set of 400
+square roots and the set of 400 logarithms to the transformation. Upon each of
+the sets mentioned before following features were added:
+
+\begin{itemize}
+\item mean
+\item variance
+\item standard deviation
+\item number of zero elements
+\item minimum element
+\item maximum element
+\item median element
+\end{itemize}
 
 
-\subsection{Crossvalidation}
+\subsection{Cross validation}
 
-TODO
-
+To verify the success of the feature transformation and to find good $\lambda$s
+for the PEGASOS algorithm we implemented cross validation on the training data:
+We trained the vector $w$ against a subset of the training data and calculated
+the error with the remaining data.
 
 \bibliographystyle{plain}
 \bibliography{literature}
