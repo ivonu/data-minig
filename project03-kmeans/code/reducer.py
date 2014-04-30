@@ -21,8 +21,8 @@ def updateMu(x_t, mu, t, weight):
     # update mu_c
     t[c] += 1
     eta = np.min([0.001, 1.0 / t[c]])
-    mu[c] += eta * (x_t - mu[c])
-    for i in range(1, weight):
+
+    for i in range(weight):
         mu[c] += eta * (x_t - mu[c])
 
 
