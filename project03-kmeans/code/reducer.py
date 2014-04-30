@@ -22,21 +22,24 @@ def updateMu(x_t, mu, eta):
 if __name__ == "__main__":
 
     # init first 200
-    mu = np.zeros(200, 750)
+    mu = np.zeros([200, 750])
 
     t = 0
     for line in sys.stdin:
-        key, line = line.split("\t")
+        #key, line = line.split("\t")
+        line = line[2:]
         line = line.strip()
         #parse a line
-        x_t = np.fromstring(sep=" ")
+        x_t = np.fromstring(line, sep=" ")
         mu[t] = x_t
         t += 1
         if t == 200:
             break
     t = 0
     for line in sys.stdin:
-        key, line = line.split("\t")
+        #key, line = line.split("\t")
+        line = line[2:]
+        line = line.strip()
         #parse a line
         x_t = np.fromstring(line, sep=" ")
         t += 1
