@@ -35,7 +35,6 @@ if __name__ == "__main__":
     mu = np.random.randn(200, 750) / 100
     #mu = (np.random.rand(200, 750) * 2) - 1
     t = np.zeros(200)
-
     for line in sys.stdin:
         line = line.strip()
         #parse a line
