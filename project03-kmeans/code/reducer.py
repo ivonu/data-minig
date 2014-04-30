@@ -38,7 +38,7 @@ if __name__ == "__main__":
     for line in sys.stdin:
         key, line = line.split("\t")
         #parse a line
-        x_t = np.fromstring(sep=" ")
+        x_t = np.fromstring(line, sep=" ")
         t += 1
         eta = 1.0 / t
         updateMu(x_t, mu, eta)
