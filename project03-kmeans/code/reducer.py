@@ -13,7 +13,7 @@ def updateMu(x_t, mu, t, weight):
 
     mindist = sys.float_info.max
     for j, mu_j in enumerate(mu):
-        dist = np.linalg.norm(x_t - mu_j)
+        dist = np.sum(np.square(x_t - mu_j))
         if dist < mindist:
             mindist = dist
             c = j

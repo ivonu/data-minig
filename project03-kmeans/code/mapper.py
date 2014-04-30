@@ -17,10 +17,9 @@ if len(sys.argv) > 1:
 def updateMu(x_t, mu, t):
     # c = argmin_j || mu_j - x_t ||_2
     c = 0
-
     mindist = sys.float_info.max
     for j, mu_j in enumerate(mu):
-        dist = np.linalg.norm(x_t - mu_j)
+        dist = np.sum(np.square(x_t - mu_j))
         if dist < mindist:
             mindist = dist
             c = j
@@ -32,15 +31,16 @@ def updateMu(x_t, mu, t):
 
 
 if __name__ == "__main__":
-    mu = np.random.randn(2000, 750) / 100
+    mu = np.random.randn(200, 750) / 100
 
-    t = np.zeros(2000)
+    t = np.zeros(200)
     for line in sys.stdin:
         line = line.strip()
         #parse a line
         x_t = np.fromstring(line, sep=" ")
         updateMu(x_t, mu, t)
     for c, mu_i in enumerate(mu):
-        print_string = " ".join([repr(s) for s in mu_i])
-        print '1\t%i\t%s' % (t[c], print_string)
+        if t[c] > 20:
+            print_string = " ".join([repr(s) for s in mu_i])
+            print '1\t%i\t%s' % (t[c], print_string)
 
