@@ -25,6 +25,7 @@ def updateMu(x_t, mu, t):
     # update mu_c
     t[c] += 1
     eta = 1 / t[c]
+    eta = 0.01
     mu[c] += eta * (x_t - mu[c])
 
 
@@ -36,6 +37,7 @@ if __name__ == "__main__":
         #parse a line
         x_t = np.fromstring(line, sep=" ")
         updateMu(x_t, mu, t)
+
     for mu_i in mu:
         print_string = " ".join([repr(s) for s in mu_i])
         print '1\t%s' % print_string

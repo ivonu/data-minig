@@ -18,6 +18,7 @@ def updateMu(x_t, mu, t):
     # update mu_c
     t[c] += 1
     eta = 1 / t[c]
+    eta = 0.01
     mu[c] += eta * (x_t - mu[c])
 
 
