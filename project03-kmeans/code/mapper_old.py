@@ -11,7 +11,7 @@ import numpy as np
 #
 
 
-def updateMu(x_t, mu, t):
+def updateMu(x_t, mu, eta):
     # c = argmin_j || mu_j - x_t ||_2
     c = 0
 
@@ -23,19 +23,19 @@ def updateMu(x_t, mu, t):
             c = j
 
     # update mu_c
-    t[c] += 1
-    eta = 1 / t[c]
     mu[c] += eta * (x_t - mu[c])
 
 
 if __name__ == "__main__":
     mu = np.random.rand(200, 750)
-    t = np.zeros(200)
+    t = 0
     for line in sys.stdin:
         line = line.strip()
         #parse a line
         x_t = np.fromstring(line, sep=" ")
-        updateMu(x_t, mu, t)
+        t += 1
+        eta = 1 / t
+        updateMu(x_t, mu, eta)
     for mu_i in mu:
         print_string = " ".join([repr(s) for s in mu_i])
         print '1\t%s' % print_string
