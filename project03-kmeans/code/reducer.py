@@ -3,8 +3,11 @@ import sys
 
 import numpy as np
 
+if len(sys.argv) > 1:
+    sys.stdin = open(sys.argv[1], 'r')
 
-def updateMu(x_t, mu, t):
+
+def updateMu(x_t, mu, t, weight):
     # c = argmin_j || mu_j - x_t ||_2
     c = 0
 
@@ -17,8 +20,10 @@ def updateMu(x_t, mu, t):
 
     # update mu_c
     t[c] += 1
-    eta = 1 / t[c]
+    eta = np.min([0.001, 1.0 / t[c]])
     mu[c] += eta * (x_t - mu[c])
+    for i in range(1, weight):
+        mu[c] += eta * (x_t - mu[c])
 
 
 if __name__ == "__main__":
@@ -30,6 +35,8 @@ if __name__ == "__main__":
     count = 0
     for line in sys.stdin:
         line = line[2:]
+        split = line.split('\t', 1)
+        line = split[1]
         line = line.strip()
         #parse a line
         x_t = np.fromstring(line, sep=" ")
@@ -40,10 +47,13 @@ if __name__ == "__main__":
 
     for line in sys.stdin:
         line = line[2:]
+        split = line.split('\t', 1)
+        weight = int(split[0])
+        line = split[1]
         line = line.strip()
         #parse a line
         x_t = np.fromstring(line, sep=" ")
-        updateMu(x_t, mu, t)
+        updateMu(x_t, mu, t, weight)
 
     for mu_i in mu:
         print_string = " ".join([repr(s) for s in mu_i])
