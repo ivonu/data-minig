@@ -26,7 +26,7 @@ def updateMu(x_t, mu, t):
 
     # update mu_c
     t[c] += 1
-    eta = np.min([0.01, 1.0 / t[c]]);
+    eta = np.min([0.05, 1.0 / t[c]]);
     mu[c] += eta * (x_t - mu[c])
 
 
