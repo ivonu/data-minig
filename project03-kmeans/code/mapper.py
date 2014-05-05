@@ -40,7 +40,7 @@ if __name__ == "__main__":
         x_t = np.fromstring(line, sep=" ")
         updateMu(x_t, mu, t)
     for c, mu_i in enumerate(mu):
-        if t[c] > 25:
+        if t[c] > 16:
             print_string = " ".join([repr(s) for s in mu_i])
             print '1\t%i\t%s' % (t[c], print_string)
 
