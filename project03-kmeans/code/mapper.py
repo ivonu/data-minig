@@ -26,7 +26,7 @@ def updateMu(x_t, mu, t):
 
     # update mu_c
     t[c] += 1
-    eta = np.min([0.1, 1.0 / t[c]]);
+    eta = np.min([0.05, 1.0 / t[c]]);
     mu[c] += eta * (x_t - mu[c])
 
 
@@ -40,7 +40,7 @@ if __name__ == "__main__":
         x_t = np.fromstring(line, sep=" ")
         updateMu(x_t, mu, t)
     for c, mu_i in enumerate(mu):
-        if t[c] > 20:
+        if t[c] > 50:
             print_string = " ".join([repr(s) for s in mu_i])
             print '1\t%i\t%s' % (t[c], print_string)
 
