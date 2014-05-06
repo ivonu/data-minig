@@ -3,49 +3,48 @@ import sys
 
 import numpy as np
 
+if len(sys.argv) > 1:
+    sys.stdin = open(sys.argv[1], 'r')
 
-def updateMu(x_t, mu, eta):
+
+def updateMu(x_t, mu, t, weight):
     # c = argmin_j || mu_j - x_t ||_2
     c = 0
 
     mindist = sys.float_info.max
     for j, mu_j in enumerate(mu):
-        dist = np.linalg.norm(x_t - mu_j)
+        dist = np.sum(np.square(x_t - mu_j))
         if dist < mindist:
             mindist = dist
             c = j
 
     # update mu_c
-    mu[c] += eta * (x_t - mu[c])
+    t[c] += 1
+    eta = np.min([0.05, 1.0 / t[c]])
+
+    for i in range(weight):
+        mu[c] += eta * (x_t - mu[c])
 
 
 if __name__ == "__main__":
 
     # init first 200
-    mu = np.zeros([200, 750])
-    t = 0
+    mu = np.random.randn(250, 750) / 100
+    t = np.zeros(250)
 
-    count = 0
     for line in sys.stdin:
         line = line[2:]
+        split = line.split('\t', 1)
+        weight = int(split[0])
+        line = split[1]
         line = line.strip()
         #parse a line
         x_t = np.fromstring(line, sep=" ")
-        mu[count] = x_t
-        count += 1
-        if count == 200:
-            break
+        updateMu(x_t, mu, t, weight)
 
-    t = 0
-    for line in sys.stdin:
-        line = line[2:]
-        line = line.strip()
-        #parse a line
-        x_t = np.fromstring(line, sep=" ")
-        t += 1
-        eta = 1 / t
-        updateMu(x_t, mu, eta)
-
-    for mu_i in mu:
-        print_string = " ".join([repr(s) for s in mu_i])
-        print '%s' % print_string
+    t *= -1
+    t = np.sort(t)
+    t *= -1
+    for c in range(200):
+        print_string = " ".join([repr(s) for s in mu[c]])
+        print '%s' % (t[c], print_string)
