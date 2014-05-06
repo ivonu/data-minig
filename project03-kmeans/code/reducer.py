@@ -32,19 +32,6 @@ if __name__ == "__main__":
     mu = np.random.randn(200, 750) / 100
     t = np.zeros(200)
 
-    # count = 0
-    # for line in sys.stdin:
-    #     line = line[2:]
-    #     split = line.split('\t', 1)
-    #     line = split[1]
-    #     line = line.strip()
-    #     #parse a line
-    #     x_t = np.fromstring(line, sep=" ")
-    #     mu[count] = x_t
-    #     count += 1
-    #     if count == 200:
-    #         break
-
     for line in sys.stdin:
         line = line[2:]
         split = line.split('\t', 1)
