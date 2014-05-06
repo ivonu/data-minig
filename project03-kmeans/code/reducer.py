@@ -3,6 +3,8 @@ import sys
 
 import numpy as np
 
+import sklearn.cluster as sklearn
+
 if len(sys.argv) > 1:
     sys.stdin = open(sys.argv[1], 'r')
 
@@ -28,10 +30,7 @@ def updateMu(x_t, mu, t, weight):
 
 if __name__ == "__main__":
 
-    # init first 200
-    mu = np.random.randn(250, 750) / 100
-    t = np.zeros(250)
-
+    S = []
     for line in sys.stdin:
         line = line[2:]
         split = line.split('\t', 1)
@@ -40,11 +39,11 @@ if __name__ == "__main__":
         line = line.strip()
         #parse a line
         x_t = np.fromstring(line, sep=" ")
-        updateMu(x_t, mu, t, weight)
+        S.append(x_t)
 
-    t *= -1
-    t = np.sort(t)
-    t *= -1
-    for c in range(200):
-        print_string = " ".join([repr(s) for s in mu[c]])
-        print '1\t%i\t%s' % (t[c], print_string)
+    data = np.array(S)
+    S = []
+    mu = sklearn.k_means(data, n_clusters=200, n_jobs=1)
+    for mu_i in mu[0]:
+        print_string = " ".join([repr(s) for s in mu_i])
+        print '%s' % print_string
