@@ -29,8 +29,8 @@ def updateMu(x_t, mu, t, weight):
 if __name__ == "__main__":
 
     # init first 200
-    mu = np.random.randn(200, 750) / 100
-    t = np.zeros(200)
+    mu = np.random.randn(250, 750) / 100
+    t = np.zeros(250)
 
     for line in sys.stdin:
         line = line[2:]
@@ -42,6 +42,9 @@ if __name__ == "__main__":
         x_t = np.fromstring(line, sep=" ")
         updateMu(x_t, mu, t, weight)
 
-    for mu_i in mu:
-        print_string = " ".join([repr(s) for s in mu_i])
-        print '%s' % print_string
+    t *= -1
+    t = np.sort(t)
+    t *= -1
+    for c in range(200):
+        print_string = " ".join([repr(s) for s in mu[c]])
+        print '1\t%i\t%s' % (t[c], print_string)
