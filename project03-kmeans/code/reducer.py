@@ -2,30 +2,10 @@
 import sys
 
 import numpy as np
-
 import sklearn.cluster as sklearn
 
 if len(sys.argv) > 1:
     sys.stdin = open(sys.argv[1], 'r')
-
-
-def updateMu(x_t, mu, t, weight):
-    # c = argmin_j || mu_j - x_t ||_2
-    c = 0
-
-    mindist = sys.float_info.max
-    for j, mu_j in enumerate(mu):
-        dist = np.sum(np.square(x_t - mu_j))
-        if dist < mindist:
-            mindist = dist
-            c = j
-
-    # update mu_c
-    t[c] += 1
-    eta = np.min([0.05, 1.0 / t[c]])
-
-    for i in range(weight):
-        mu[c] += eta * (x_t - mu[c])
 
 
 if __name__ == "__main__":
