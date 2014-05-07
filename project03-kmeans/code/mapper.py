@@ -32,8 +32,8 @@ def updateMu(x_t, mu, t):
 
 if __name__ == "__main__":
 
-    mu = np.random.randn(250, 750) / 100
-    t = np.zeros(250)
+    mu = np.random.randn(200, 750) / 30
+    t = np.zeros(200)
 
     for line in sys.stdin:
         line = line.strip()
@@ -45,7 +45,7 @@ if __name__ == "__main__":
     t = np.sort(t)
     t *= -1
     #exclude first
-    for c in range(1, 201):
+    for c in range(0, 200):
         print_string = " ".join([repr(s) for s in mu[c]])
         print '1\t%i\t%s' % (t[c], print_string)
 
