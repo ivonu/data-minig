@@ -257,8 +257,7 @@ What we've learnt from this project is that initialisation really matters (in te
 By playing around with a few parameter we came up with a \textbf{normal distributed} set of \textbf{initial centroids} with $\mu = 0$ and $\sigma = {1 \over 30}$
 
 
-Figures \ref{fig:proj3-initialisation} shows a histogram with touch counts and number of centroids after the mapping step. If there is a bar at x-axis 50 with size 29 this means that there are 50 centroids which have 29 closest points each.
-
+Figures \ref{fig:proj3-initialisation} shows a histogram with touch counts and number of centroids after the mapping step. If there is a bar at x-axis 50 with height 29 this means that there are 29 centroids which each have between 49 and 52 closest points assigned. We chose the bucket size for the histogram to be 4. We can see from that plot that there are no unused centroids. The minimum points assigned to a centroid is roughly 20.
 
 \begin{figure}[H]
 \centering
