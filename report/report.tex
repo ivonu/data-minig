@@ -240,24 +240,26 @@ We trained the vector $w$ against a subset of the training set and calculated
 the error with the remaining data.
 
 \section{Extracting Representative Elements From Large Datasets}
-This section describes the implementation of project 2. The goal of this task was to extract representative elements from a large image dataset.
+This section describes the implementation of project 3. The goal of this task was to extract representative elements from a large image dataset.
 
-Generally speaking we implemented online K-Means for both the mapper and the reducer.
+Generally speaking we implemented online K-Means for both the mapper and the reducer. In doing so we nearly reached the hard baseline (score 741.96).
 
 
 \subsection{Mapper}
 The 300 mappers which independently run over a their subset of data perform online K-Means.
 
-We chose to run K-Means with k=200 centroids. A minor modification of the algorithm is that we track the number of times we touch (move) a centroid while performing the algorithm. We refer to this as the touch count of a centroid. Each mapper in the end emits all of its 200 centroids with their corresponding touch count $tc_i$.
-
+We chose to run K-Means with k=200 centroids. A minor modification of the algorithm is that we track the number of times we touch (move) a centroid while performing the algorithm. We refer to this as the "touch count" of a centroid. Each mapper in the end emits all of its 200 centroids with their corresponding touch counts $tc_i$.
 
 \subsubsection{Centroid Initialization}
-What we've learnt from this project is that initialisation really matters (in terms of score). We optimised initialisation of the centroids in a way that the touch count is evenly spread. If a mapper's K-Means algorithm trains a centroid which is never touched this specific one is most probably bad initialized.
+What we've learnt from this project is that initialisation really matters (in terms of score). We optimised initialization of the centroids in a way that the touch count is evenly spread. If a mappers K-Means algorithm trains a centroid which is never touched this specific one is most probably badly initialized.
 
-By playing around with a few parameter we came up with a \textbf{normal distributed} set of \textbf{initial centroids} with $\mu = 0$ and $\sigma = {1 \over 30}$
+By playing around with a few parameters we came up with a \textbf{normally distributed} set of \textbf{initial centroids} with $\mu = 0$ and $\sigma = {1 \over 100}$.
 
+\subsubsection{Learning Rate $\eta$}
+The next modification of the default online K-Means algorithm presented in the lecture is the learning rate. For centroid $i$ we keep track of a learning parameter $\eta_i = min \left(0.05, {1\over tc_i} \right)$. This way we decrease the parameters value down from 0.05 which worked best for us.
 
-Figures \ref{fig:proj3-initialisation} shows a histogram with touch counts and number of centroids after the mapping step after running 10 mappers (2000 centroids). If there is a bar at x-axis 50 with height 320 this means that there are 320 centroids which each have between 49 and 52 closest points assigned. We can see from that plot that there are no unused centroids. The minimum number points assigned to a centroid is roughly 20.
+\subsubsection{Emitted centroids with corresponding touch counts}
+Figures \ref{fig:proj3-initialisation} shows a histogram with touch counts and number of centroids after the mapping step of 10 mappers (2000 centroids). If there is a bar at x-axis 50 with height 320 this means that there are 320 centroids which each have between 49 and 52 closest points assigned. We can see from that plot that there are no unused centroids. The minimum number points assigned to a centroid is roughly 20. There are some outliers with much higher counter that are cut out of the set.
 
 \begin{figure}[H]
 \centering
@@ -267,14 +269,10 @@ Figures \ref{fig:proj3-initialisation} shows a histogram with touch counts and n
 \end{figure}
 
 
-
-\subsubsection{Learning Rate $\eta$}
-The next modification of the default online K-Means algorithm presented in the lecture is the learning rate. For centroid $i$ we keep track of a learning parameter $\eta_i = min \left(0.05, {1\over tc_i} \right)$. This way we decrease the parameter's value up to a certain threshold (0.05) which worked best for us.
-
 \subsection{Reducer}
-The reducer receives for each of the 300 mapper 200 centroids-touchcount pairs. We perform a simple K-Means algorithm on all the centroids which are now viewed as weighted data in the context of the reducer.
+The reducer receives for each of the 300 mappers 200 centroids-touch count pairs. We perform online K-Means on the centroids which are now viewed as weighted data in the context of the reducer.
 
-The weights are considered as follwing: When K-Means iterates over one point with touch count $n$ it applies the centroid update step $n$ times.
+The touch counts are considered as follows: When K-Means iterates over one point with touch count $tc_i$ it applies the centroid update step $tc_i$ times.
 
 
 \bibliographystyle{plain}
