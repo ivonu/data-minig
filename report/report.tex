@@ -239,6 +239,44 @@ for the PEGASOS algorithm we implemented cross validation on the training data:
 We trained the vector $w$ against a subset of the training set and calculated
 the error with the remaining data.
 
+\section{Extracting Representative Elements From Large Datasets}
+This section describes the implementation of project 2. The goal of this task was to extract representative elements from a large image dataset.
+
+Generally speaking we implemented online K-Means for both the mapper and the reducer.
+
+
+\subsection{Mapper}
+The 300 mappers which independently run over a their subset of data perform online K-Means.
+
+We chose to run K-Means with k=200 centroids. A minor modification of the algorithm is that we track the number of times we touch (move) a centroid while performing the algorithm. We refer to this as the touch count of a centroid. Each mapper in the end emits all of its 200 centroids with their corresponding touch count $tc_i$.
+
+
+\subsubsection{Centroid Initialization}
+What we've learnt from this project is that initialisation really matters (in terms of score). We optimised initialisation of the centroids in a way that the touch count is evenly spread. If a mapper's K-Means algorithm trains a centroid which is never touched this specific one is most probably bad initialized.
+
+By playing around with a few parameter we came up with a \textbf{normal distributed} set of \textbf{initial centroids} with $\mu = 0$ and $\sigma = {1 \over 30}$
+
+
+Figures \ref{fig:proj3-initialisation} shows a histogram with touch counts and number of centroids after the mapping step after running 10 mappers (2000 centroids). If there is a bar at x-axis 50 with height 320 this means that there are 320 centroids which each have between 49 and 52 closest points assigned. We can see from that plot that there are no unused centroids. The minimum number points assigned to a centroid is roughly 20.
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.35]{histogram.eps}
+\caption{Distribution of point assignments of mapper output}
+\label{fig:proj3-initialisation}
+\end{figure}
+
+
+
+\subsubsection{Learning Rate $\eta$}
+The next modification of the default online K-Means algorithm presented in the lecture is the learning rate. For centroid $i$ we keep track of a learning parameter $\eta_i = min \left(0.05, {1\over tc_i} \right)$. This way we decrease the parameter's value up to a certain threshold (0.05) which worked best for us.
+
+\subsection{Reducer}
+The reducer receives for each of the 300 mapper 200 centroids-touchcount pairs. We perform a simple K-Means algorithm on all the centroids which are now viewed as weighted data in the context of the reducer.
+
+The weights are considered as follwing: When K-Means iterates over one point with touch count $n$ it applies the centroid update step $n$ times.
+
+
 \bibliographystyle{plain}
 \bibliography{literature}
 
