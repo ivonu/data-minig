@@ -3,43 +3,22 @@
 import sys
 
 import numpy as np
-import mapper as m
-import reducer_old as r
+import reducer_new as r
 
 data_size = 100000
 data_train_size = 60000
 data_validate_size = data_size - data_train_size
-buckets = 10
-bucket_size = data_train_size/buckets
-
 
 def train (data_train):
 
     # mappers
-    S = []
-    ts = []
-    for i in range(buckets):
-        print '%i. bucket...' % i
-        mu1 = np.random.randn(200, 750) / 42
-        t = np.zeros(200)
-
-        for x_t in data_train[i*bucket_size:i*bucket_size+bucket_size]:
-            m.updateMu(x_t, mu1, t)
-        S.append(mu1)
-        ts.append(t)
-
-
-    # reducer
-    final_mu = np.random.randn(200, 750) / 42
+    mu = np.random.randn(200, 750) / 30
     t = np.zeros(200)
 
-    for c, mu in enumerate(S):
-        weights = ts[c]
+    for x_t in data_train:
+        r.updateMu(x_t, mu, t)
 
-        for c2, x_t in enumerate(mu):
-            r.updateMu(x_t, final_mu, t, weights[c2])
-
-    return final_mu
+    return mu
 
 
 def validate(data_validate, mu):
