@@ -35,7 +35,5 @@ if __name__ == "__main__":
         updateMu(x_t, mu, t)
 
     for mu_i in mu:
-        #print_string = " ".join([repr(s) for s in mu_i])
-        #print '%s' % print_string
         print_string = np.array_str(mu_i)[1:-1]
         print '%s' % print_string

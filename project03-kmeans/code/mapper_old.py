@@ -36,6 +36,7 @@ if __name__ == "__main__":
         t += 1
         eta = 1 / t
         updateMu(x_t, mu, eta)
+
     for mu_i in mu:
         print_string = " ".join([repr(s) for s in mu_i])
         print '1\t%s' % print_string

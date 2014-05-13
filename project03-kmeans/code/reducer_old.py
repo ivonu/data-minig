@@ -45,10 +45,6 @@ if __name__ == "__main__":
         x_t = np.fromstring(line, sep=" ")
         updateMu(x_t, mu, t, weight)
 
-    #t *= -1
-    #t = np.sort(t)
-    #t *= -1
     for c in range(200):
-        #print_string = " ".join([repr(s) for s in mu[c]])
         print_string = np.array_str(mu[c])[1:-1]
         print '%s' % print_string
