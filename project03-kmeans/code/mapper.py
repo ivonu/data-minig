@@ -4,9 +4,6 @@ import sys
 
 import numpy as np
 
-
-
-
 # from dm-08-unsupervised-annotated.pdf SLIDE 25
 #
 
@@ -32,20 +29,27 @@ def updateMu(x_t, mu, t):
 
 if __name__ == "__main__":
 
+    np.set_printoptions(linewidth=1000000000000)
+    np.set_printoptions(precision=100)
+
     mu = np.random.randn(200, 750) / 30
     t = np.zeros(200)
 
+    #co = 0
     for line in sys.stdin:
         line = line.strip()
         #parse a line
         x_t = np.fromstring(line, sep=" ")
         updateMu(x_t, mu, t)
+        #co += 1
+        #if co > 10000:
+        #    break
 
-    t *= -1
-    t = np.sort(t)
-    t *= -1
+    #t *= -1
+    #t = np.sort(t)
+    #t *= -1
     #exclude first
     for c in range(0, 200):
-        print_string = " ".join([repr(s) for s in mu[c]])
+        #print_string = " ".join([repr(s) for s in mu[c]])
+        print_string = np.array_str(mu[c])[1:-1]
         print '1\t%i\t%s' % (t[c], print_string)
-
