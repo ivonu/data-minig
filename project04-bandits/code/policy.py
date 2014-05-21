@@ -64,15 +64,16 @@ def update(reward):
     global total_counts
     global current_art_id
     global current_centroid_idx
+    global arts_to_index
     global t
 
     if reward == -1:
         return
 
     t += 1
-
-    total_counts[current_centroid_idx][current_art_id] += 1
-    success_counts[current_centroid_idx][current_art_id] += reward
+    current_art_index = arts_to_index[current_art_id]
+    total_counts[current_centroid_idx][current_art_index] += 1
+    success_counts[current_centroid_idx][current_art_index] += reward
 
 
 # This function will be called by the evaluator.
