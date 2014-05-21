@@ -25,7 +25,7 @@ if __name__ == "__main__":
         print "Usage: ./cluster_local_user.py log"
         sys.exit(-1)
 
-    centroids = cluster_users(sys.argv[1], 20)
+    centroids = cluster_users(sys.argv[1], 12)
     print "centroids = ["
     for cent in centroids:
         print "[%s,%s,%s,%s,%s,%s]," % (cent[0], cent[1], cent[2], cent[3], cent[4], cent[5])
