@@ -33,13 +33,17 @@ def set_articles(art):
 # This function will be called by the evaluator.
 # Check task description for details.
 def update(reward):
+    if reward == -1:
+        return
+
     global mu
     global n
-    global arts
     global t
+    global max_art_id
 
     n[max_art_id] += 1
     mu[max_art_id] += (reward - mu[max_art_id]) / n[max_art_id]
+    t += 1
 
 
 # This function will be called by the evaluator.
@@ -47,7 +51,6 @@ def update(reward):
 def UCB(art_id):
     global mu
     global n
-    global arts
     global t
 
     return mu[art_id] + np.sqrt(2 * np.log(t) / n[art_id])
