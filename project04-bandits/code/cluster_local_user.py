@@ -19,6 +19,12 @@ def cluster_users(path, k):
     return centroids
 
 
+def testKs(users):
+    for k in range(1, 50):
+        centers, dist = kmeans(np.array(users), k)
+        print '%f ' % dist
+
+
 if __name__ == "__main__":
     np.set_printoptions(linewidth=1000, precision=20)
     if len(sys.argv) != 2:
