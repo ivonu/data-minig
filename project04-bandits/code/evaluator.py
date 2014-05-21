@@ -1,6 +1,8 @@
 #!/usr/bin/env python2.7
 import sys
-import policy # This is your policy file.
+
+import policy  # This is your policy file.
+
 
 def read_articles(path):
     articles = {}
@@ -10,8 +12,8 @@ def read_articles(path):
             articles[int(tokens[0])] = [float(x) for x in tokens[1:]]
     policy.set_articles(articles)
 
-def process(path):
 
+def process(path):
     clicked, lines_evaluated, lines_total = 0, 0, 0
 
     with file(sys.argv[2]) as inf:
@@ -41,7 +43,8 @@ def process(path):
                 policy.update(-1)
 
         print "Evaluated %d/%d lines." % ( lines_evaluated, lines_total)
-        print "CTR=%f" % (float(clicked) /  lines_evaluated)
+        print "CTR=%f" % (float(clicked) / lines_evaluated)
+
 
 if __name__ == "__main__":
     if (len(sys.argv) != 3):
