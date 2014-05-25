@@ -1,7 +1,7 @@
 #!/usr/bin/env python2.7
 import sys
 
-import policy  # This is your policy file.
+import policy_no_kmeans_rel  # This is your policy file.
 
 
 def read_articles(path):
@@ -10,7 +10,7 @@ def read_articles(path):
         for line in inf:
             tokens = line.strip().split()
             articles[int(tokens[0])] = [float(x) for x in tokens[1:]]
-    policy.set_articles(articles)
+    policy_no_kmeans_rel.set_articles(articles)
 
 
 def process(path):
@@ -29,20 +29,20 @@ def process(path):
             articles = [int(x) for x in logline[7:]]
 
             # Getting the recommended article.
-            calculated = policy.reccomend(time, user_features, articles)
+            calculated = policy_no_kmeans_rel.reccomend(time, user_features, articles)
 
             if not calculated in articles:
                 raise Exception("Article was not in the list.")
 
             # Updating the policy.
             if calculated == chosen:
-                policy.update(user_action)
+                policy_no_kmeans_rel.update(user_action)
                 clicked += user_action
                 lines_evaluated += 1
             else:
-                policy.update(-1)
+                policy_no_kmeans_rel.update(-1)
 
-        print "Evaluated %d/%d lines." % ( lines_evaluated, lines_total)
+        print "Evaluated %d/%d lines." % (lines_evaluated, lines_total)
         print "CTR=%f" % (float(clicked) / lines_evaluated)
 
 
