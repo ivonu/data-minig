@@ -4,13 +4,15 @@ import sys
 
 import numpy as np
 import numpy.linalg as linalg
-
+import datetime
 
 
 # Evaluator will call this function and pass the article features.
 # Check evaluator.py description for details.
 
 
+# number of user features
+d = 13
 
 alpha = 0.2
 As = {}
@@ -23,6 +25,7 @@ current_user_features = np.zeros(6)
 
 
 def set_articles(art):
+    global d
     global As
     global AInvs
     global bs
@@ -30,9 +33,9 @@ def set_articles(art):
     global articles
     articles = art
     for article_id in art:
-        AInvs[article_id] = As[article_id] = np.identity(12)
-        bs[article_id] = np.zeros(12)
-        thetas[article_id] = np.zeros(12)
+        AInvs[article_id] = As[article_id] = np.identity(d)
+        bs[article_id] = np.zeros(d)
+        thetas[article_id] = np.zeros(d)
 
 
 # This function will be called by the evaluator.
@@ -65,7 +68,11 @@ def reccomend(timestamp, user_features, art_ids):
     global thetas
     global articles
 
-    user_features = np.array(user_features)
+    # create new user feature "time"
+    dt = datetime.datetime.fromtimestamp(timestamp)
+    new_feature = min(dt.hour / 24.0, (24.0 - dt.hour) / 24.0)
+
+    user_features = np.array(user_features + [new_feature])
 
     max_ucb = sys.float_info.min
     for art_id in art_ids:
