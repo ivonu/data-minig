@@ -12,7 +12,7 @@ import numpy.linalg as linalg
 
 
 
-alpha = 0.25
+alpha = 0.2
 As = {}
 AInvs = {}
 bs = {}
