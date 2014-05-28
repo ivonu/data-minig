@@ -1,10 +1,10 @@
 #!/usr/bin/env python2.7
 
 import sys
+import datetime
 
 import numpy as np
 import numpy.linalg as linalg
-import datetime
 
 
 # Evaluator will call this function and pass the article features.
@@ -12,7 +12,7 @@ import datetime
 
 
 # number of user features
-d = 6
+d = 7
 
 alpha = 0.2
 As = {}
@@ -69,11 +69,11 @@ def reccomend(timestamp, user_features, art_ids):
     global articles
 
     # create new user feature "time"
-    # dt = datetime.datetime.fromtimestamp(timestamp)
-    # new_feature = min(dt.hour / 24.0, (24.0 - dt.hour) / 24.0)
-    #
-    # user_features = np.array(user_features + [new_feature])
-    user_features = np.array(user_features)
+    dt = datetime.datetime.fromtimestamp(timestamp)
+    new_feature = min(dt.hour / 24.0, (24.0 - dt.hour) / 24.0)
+
+    user_features = np.array(user_features + [new_feature])
+
     max_ucb = sys.float_info.min
     for art_id in art_ids:
         A_inv = AInvs[art_id]
