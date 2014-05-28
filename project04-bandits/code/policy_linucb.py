@@ -12,7 +12,7 @@ import datetime
 
 
 # number of user features
-d = 13
+d = 6
 
 alpha = 0.2
 As = {}
@@ -69,16 +69,16 @@ def reccomend(timestamp, user_features, art_ids):
     global articles
 
     # create new user feature "time"
-    dt = datetime.datetime.fromtimestamp(timestamp)
-    new_feature = min(dt.hour / 24.0, (24.0 - dt.hour) / 24.0)
-
-    user_features = np.array(user_features + [new_feature])
-
+    # dt = datetime.datetime.fromtimestamp(timestamp)
+    # new_feature = min(dt.hour / 24.0, (24.0 - dt.hour) / 24.0)
+    #
+    # user_features = np.array(user_features + [new_feature])
+    user_features = np.array(user_features)
     max_ucb = sys.float_info.min
     for art_id in art_ids:
         A_inv = AInvs[art_id]
         theta_a = thetas[art_id]
-        features = np.concatenate((user_features, articles[art_id]))
+        features = user_features
         a = theta_a.dot(features)
         b = alpha * np.sqrt(features.dot(A_inv).dot(features))
         ucb = a + b

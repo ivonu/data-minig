@@ -8,3 +8,10 @@ Added esoteric time feature
 
 d = 13
 alpha = 0.2
+
+
+Submission ID 4560
+------------------
+d=6
+alpha 0.2
+only user features
