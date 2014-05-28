@@ -1,0 +1,10 @@
+Submissions
+===============
+
+
+Submission ID 4553 
+------------------
+Added esoteric time feature 
+
+d = 13
+alpha = 0.2
