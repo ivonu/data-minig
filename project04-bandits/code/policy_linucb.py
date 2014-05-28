@@ -11,9 +11,9 @@ import numpy.linalg as linalg
 # Check evaluator.py description for details.
 
 
-delta = .95
+#delta = .95
 #alpha = 1 + np.sqrt(np.log(2.0 / delta) / 2)
-alpha = 1.2
+alpha = 0.75
 As = {}
 AInvs = {}
 bs = {}
@@ -21,7 +21,6 @@ thetas = {}
 articles = {}
 current_art_id = 0
 current_user_features = np.zeros(6)
-
 
 def set_articles(art):
     global As
@@ -48,7 +47,8 @@ def update(reward):
 
     if reward == -1:
         return
-    As[current_art_id] += current_user_features.dot(current_user_features)
+
+    As[current_art_id] += np.outer(current_user_features, current_user_features)
     AInvs[current_art_id] = linalg.inv(As[current_art_id])
 
     bs[current_art_id] += reward * current_user_features
@@ -70,7 +70,7 @@ def reccomend(timestamp, user_features, articles):
     for art_id in articles:
         A_inv = AInvs[art_id]
         theta_a = thetas[art_id]
-        ucb = theta_a.dot(user_features) + np.sqrt(user_features.dot(A_inv).dot(user_features))
+        ucb = theta_a.dot(user_features) + alpha * np.sqrt(user_features.dot(A_inv).dot(user_features))
 
         if ucb > max_ucb:
             max_ucb = ucb
