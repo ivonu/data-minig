@@ -1,7 +1,7 @@
 #!/usr/bin/env python2.7
 import sys
 
-import policy_no_kmeans as policy  # This is your policy file.
+import policy_linucb as policy  # This is your policy file.
 
 
 def read_articles(path):
@@ -29,9 +29,9 @@ def process(path):
             if chosen == 109528:
                 continue
 
-            user_features = [None]*6
+            user_features = [None] * 6
             for feat in logline[2:8]:
-                user_features[int(feat[0])-1] = float(feat[2:])
+                user_features[int(feat[0]) - 1] = float(feat[2:])
 
             articles = []
             for feat in logline[8:]:
