@@ -5,7 +5,6 @@ Submissions
 Submission ID 4553 
 ------------------
 Added esoteric time feature 
-
 d = 13
 alpha = 0.2
 
@@ -18,6 +17,14 @@ only user features
 
 
 Submission ID 4572
+------------------
 d=7
 alpha = 0.2
+only user features and esoteric time feature
+
+
+Submission ID 4692
+------------------
+d=7
+alpha = 0.3
 only user features and esoteric time feature
