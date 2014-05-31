@@ -6,13 +6,6 @@ import numpy as np
 import numpy.linalg as linalg
 
 
-
-
-
-
-
-
-
 # Evaluator will call this function and pass the article features.
 # Check evaluator.py description for details.
 
@@ -20,7 +13,7 @@ import numpy.linalg as linalg
 # number of user features
 d = 6
 
-alpha = 0.19
+alpha = 0.14
 As = {}
 AInvs = {}
 bs = {}
@@ -28,6 +21,7 @@ thetas = {}
 articles = {}
 current_art_id = 0
 current_user_features = np.zeros(6)
+t = 0
 
 
 def set_articles(art):
@@ -53,7 +47,12 @@ def update(reward):
     global thetas
     global current_art_id
     global current_user_features
-
+    global t
+    global alpha
+    t += 1
+    if t == 100000:
+        t = 0
+        alpha *= 1.01
     if reward == -1:
         return
 
@@ -74,12 +73,6 @@ def reccomend(timestamp, user_features, art_ids):
     global thetas
     global articles
 
-    # create new user feature "time"
-    # dt = datetime.datetime.fromtimestamp(timestamp)
-
-    # new_feature = np.min([dt.hour / 24.0, (24.0 - dt.hour) / 24.0])
-    # new_feature2 = dt.isoweekday() / 7.0
-    # user_features = np.array(user_features[1:] + [new_feature, new_feature2])
     user_features = np.array(user_features)
 
     max_ucb = sys.float_info.min

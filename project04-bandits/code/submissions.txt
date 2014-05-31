@@ -58,3 +58,9 @@ Submission ID 4724
 d=6
 alpha = 0.205
 only user features
+
+submission ID 4728
+------------------
+d=6
+moving alpha from .14 with every 100000 *1.01
+only user features
