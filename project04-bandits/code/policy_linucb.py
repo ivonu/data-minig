@@ -20,7 +20,7 @@ import numpy.linalg as linalg
 # number of user features
 d = 6
 
-alpha = 0.18
+alpha = 0.19
 As = {}
 AInvs = {}
 bs = {}
