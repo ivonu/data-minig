@@ -290,8 +290,8 @@ where $hh$ is the current hour of the day. This basically describes a pyramid fu
 However adding this feature decreased our score. We assume that timestamps are maybe not local timestamps. If log is collected from different time zones this may distort our user feature vector.
 
 
-\subsection{Clustered UCB}
-As a first implementation we tried clustering the users to user groups using a simple online k-Means algorithm with a $k=7$. Then we applied the simple plain UCB algorithm. For each user group we memorized the mean reward and the corresponding upper confidence bound. The performance of this algorithm however was quite poor.
+\subsection{Clustered UCB1}
+As a first implementation we tried clustering the users to user groups using a simple online k-Means algorithm with a $k=7$. Then we applied the simple plain UCB1 algorithm. For each user group we memorized the mean reward and the corresponding upper confidence bound. The performance of this algorithm however was quite poor.
 
 Graph \ref{fig:proj4-kmeans_users} shows number of cluster center for user groups with the mean distance of the individual users to their corresponding center. We assumed a good number of clusters to be $7$
 
@@ -313,6 +313,7 @@ Every attempt to use the article features resulted in worse score than omitting 
 
 \subsection{Local Testing}
 To locally evaluate our code we downloaded the yahoo dataset from \url{http://webscope.sandbox.yahoo.com/catalog.php?datatype=r}. We changed the local evaluator.py code to be able to handle the data.
+
 
 \bibliographystyle{plain}
 \bibliography{literature}
