@@ -46,3 +46,15 @@ Submission ID 4721
 d=6
 alpha = 0.19
 only user features
+
+Submission ID 4723
+------------------
+d=6
+alpha = 0.195
+only user features
+
+Submission ID 4724
+------------------
+d=6
+alpha = 0.205
+only user features

@@ -274,6 +274,35 @@ The reducer receives for each of the 300 mappers 200 centroids-touch count pairs
 
 The touch counts are considered as follows: When K-Means iterates over one point with touch count $tc_i$ it applies the centroid update step $tc_i$ times.
 
+\section{Explore-Exploit Tradeoffs in Recommender Systems}
+
+For project 4 we implemented different algorithms. Namely the two algorithms LinUCB and Hybrid LinUCB described in paper \cite{li2010contextual}. The highest score was reached with a simple version of LinUCB which only considers user context data. As soon as we added article data the test score got worse
+
+\subsection{Features}
+Depending on what time of the day a user wants to access different articles. One could imagine that at work a typical user prefers articles about news while in the evening a normal user wants articles about entertainment, night life etc.
+
+We constructed the following feature 
+
+$ min\left(  hh / 24, (24 - hh) / 24\right)$
+
+where $hh$ is the current hour of the day. This basically describes a pyramid function. The intuition behind is that similar hours of day should yield similar feature values.
+
+However adding this feature decreased our score. We assume that timestamps are maybe not local timestamps. If log is collected from different time zones this may distort our user feature vector.
+
+
+\subsection{Clustered UCB}
+As a first implementation we tried clustering the users to user groups using a simple online k-Means algorithm with a $k=12$. Then we applied the simple plain UCB algorithm. For each user group we memorized the mean reward and the corresponding upper confidence bound. The performance of this algorithm however was quite poor.
+
+\subsection{Hybrid LinUCB}
+Implementing the significantly more complicated hybrid yielded significantly worse score than the plain simple LinUCB algorithm. We could not figure out how to improve our score with the hybrid model. Despite of the paper stating that performance should be quite good.
+
+\subsection{LinUCB}
+The best performance was reached with the LinUCB algorithm from paper \cite{li2010contextual}. We ignored article information and considered only user context data. With an $\alpha$ value of $0.2$ we reached the best performance. 
+
+Every attempt to use the article features resulted in worse score than omitting them.
+
+\subsection{Local Testing}
+To locally evaluate our code we downloaded the yahoo dataset from \url{http://webscope.sandbox.yahoo.com/catalog.php?datatype=r}. We changed the local evaluator.py code to be able to handle the data.
 
 \bibliographystyle{plain}
 \bibliography{literature}
