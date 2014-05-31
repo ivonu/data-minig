@@ -13,7 +13,7 @@ import numpy.linalg as linalg
 # number of user features
 d = 6
 
-alpha = 0.14
+alpha = .5
 As = {}
 AInvs = {}
 bs = {}
@@ -52,7 +52,7 @@ def update(reward):
     t += 1
     if t == 100000:
         t = 0
-        alpha *= 1.01
+        alpha *= .98
     if reward == -1:
         return
 

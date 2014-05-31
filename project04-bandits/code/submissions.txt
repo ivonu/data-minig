@@ -64,3 +64,8 @@ submission ID 4728
 d=6
 moving alpha from .14 with every 100000 *1.01
 only user features
+
+submission id 4729
+------------------
+d=6
+moving alpha from 1 down every 100000 , *.98
