@@ -291,7 +291,17 @@ However adding this feature decreased our score. We assume that timestamps are m
 
 
 \subsection{Clustered UCB}
-As a first implementation we tried clustering the users to user groups using a simple online k-Means algorithm with a $k=12$. Then we applied the simple plain UCB algorithm. For each user group we memorized the mean reward and the corresponding upper confidence bound. The performance of this algorithm however was quite poor.
+As a first implementation we tried clustering the users to user groups using a simple online k-Means algorithm with a $k=7$. Then we applied the simple plain UCB algorithm. For each user group we memorized the mean reward and the corresponding upper confidence bound. The performance of this algorithm however was quite poor.
+
+Graph \ref{fig:proj4-kmeans_users} shows number of cluster center for user groups with the mean distance of the individual users to their corresponding center. We assumed a good number of clusters to be $7$
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5]{project4/kmeans_users.eps}
+\caption{Mean distance to centroid for different $k$}
+\label{fig:proj4-kmeans_users}
+\end{figure}
+
 
 \subsection{Hybrid LinUCB}
 Implementing the significantly more complicated hybrid yielded significantly worse score than the plain simple LinUCB algorithm. We could not figure out how to improve our score with the hybrid model. Despite of the paper stating that performance should be quite good.
