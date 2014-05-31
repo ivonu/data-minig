@@ -28,3 +28,10 @@ Submission ID 4692
 d=7
 alpha = 0.3
 only user features and esoteric time feature
+
+Submission ID 4715
+------------------
+d=6
+alpha = 0.18
+only user features
+

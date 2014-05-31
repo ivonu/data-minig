@@ -1,7 +1,6 @@
-#!/usr/bin/env python2.7
+# !/usr/bin/env python2.7
 
 import sys
-import datetime
 
 import numpy as np
 import numpy.linalg as linalg
@@ -19,9 +18,9 @@ import numpy.linalg as linalg
 
 
 # number of user features
-d = 7
+d = 6
 
-alpha = 0.35
+alpha = 0.18
 As = {}
 AInvs = {}
 bs = {}
@@ -76,12 +75,12 @@ def reccomend(timestamp, user_features, art_ids):
     global articles
 
     # create new user feature "time"
-    dt = datetime.datetime.fromtimestamp(timestamp)
+    # dt = datetime.datetime.fromtimestamp(timestamp)
 
-    new_feature = np.min([dt.hour / 24.0, (24.0 - dt.hour) / 24.0])
+    # new_feature = np.min([dt.hour / 24.0, (24.0 - dt.hour) / 24.0])
     # new_feature2 = dt.isoweekday() / 7.0
     # user_features = np.array(user_features[1:] + [new_feature, new_feature2])
-    user_features = np.array(user_features + [new_feature])
+    user_features = np.array(user_features)
 
     max_ucb = sys.float_info.min
     for art_id in art_ids:
