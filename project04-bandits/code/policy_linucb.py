@@ -13,7 +13,7 @@ import numpy.linalg as linalg
 # number of user features
 d = 6
 
-alpha = .5
+alpha = .2
 As = {}
 AInvs = {}
 bs = {}
@@ -21,7 +21,6 @@ thetas = {}
 articles = {}
 current_art_id = 0
 current_user_features = np.zeros(6)
-t = 0
 
 
 def set_articles(art):
@@ -33,9 +32,9 @@ def set_articles(art):
     global articles
     articles = art
     for article_id in art:
-        AInvs[article_id] = As[article_id] = np.identity(d)
-        bs[article_id] = np.zeros(d)
-        thetas[article_id] = np.zeros(d)
+        AInvs[article_id] = As[article_id] = np.identity(d, dtype=np.float64)
+        bs[article_id] = np.zeros(d, dtype=np.float64)
+        thetas[article_id] = np.zeros(d, dtype=np.float64)
 
 
 # This function will be called by the evaluator.
@@ -47,12 +46,7 @@ def update(reward):
     global thetas
     global current_art_id
     global current_user_features
-    global t
-    global alpha
-    t += 1
-    if t == 100000:
-        t = 0
-        alpha *= .98
+
     if reward == -1:
         return
 
@@ -73,20 +67,19 @@ def reccomend(timestamp, user_features, art_ids):
     global thetas
     global articles
 
-    user_features = np.array(user_features)
+    user_features = np.array(user_features, dtype=np.float64)
 
     max_ucb = sys.float_info.min
     for art_id in art_ids:
         A_inv = AInvs[art_id]
         theta_a = thetas[art_id]
-        features = user_features
-        a = theta_a.dot(features)
-        b = alpha * np.sqrt(features.dot(A_inv).dot(features))
+        a = theta_a.dot(user_features)
+        b = alpha * np.sqrt(user_features.dot(A_inv).dot(user_features))
         ucb = a + b
 
         if ucb > max_ucb:
             max_ucb = ucb
             current_art_id = art_id
-            current_user_features = features
+            current_user_features = user_features
 
     return current_art_id
