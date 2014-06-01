@@ -81,3 +81,7 @@ set datatypes to np.float64
 submission id 4820
 ------------------
 hybrid cached, alpha=0.15
+
+submission id 4824
+------------------
+hybrid cached, alpha=0.15, if reward == -1: reward=0

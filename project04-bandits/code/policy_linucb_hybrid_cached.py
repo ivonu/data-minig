@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.7
+# !/usr/bin/env python2.7
 
 import sys
 
@@ -61,7 +61,6 @@ def set_articles(art):
         x_a_dot_invA_a_dot_B_as[article_id] = x_a_dot_invA_as[article_id].dot(Bs[article_id])
 
 
-
 # This function will be called by the evaluator.
 # Check task description for details.
 def update(reward):
@@ -82,7 +81,7 @@ def update(reward):
     global x_a_dot_invA_a_dot_B_as
 
     if reward == -1:
-        return
+        reward = 0
 
     A_0 += Bs[current_art_id].T.dot(inv(As[current_art_id])).dot(Bs[current_art_id])
     b_0 += Bs[current_art_id].T.dot(inv(As[current_art_id])).dot(bs[current_art_id])
@@ -101,7 +100,8 @@ def update(reward):
 
     invA_as[current_art_id] = inv(As[current_art_id])
     x_a_dot_invA_as[current_art_id] = articles[current_art_id].dot(invA_as[current_art_id])
-    B_aT_dot_invA_a_dot_x_as[current_art_id] = Bs[current_art_id].T.dot(invA_as[current_art_id]).dot(articles[current_art_id])
+    B_aT_dot_invA_a_dot_x_as[current_art_id] = Bs[current_art_id].T.dot(invA_as[current_art_id]).dot(
+        articles[current_art_id])
     x_a_dot_invA_a_dot_x_as[current_art_id] = x_a_dot_invA_as[current_art_id].dot(articles[current_art_id])
     x_a_dot_invA_a_dot_B_as[current_art_id] = x_a_dot_invA_as[current_art_id].dot(Bs[current_art_id])
 
