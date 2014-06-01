@@ -85,3 +85,8 @@ hybrid cached, alpha=0.15
 submission id 4824
 ------------------
 hybrid cached, alpha=0.15, if reward == -1: reward=0
+
+
+submission id 4827
+------------------
+linucb alpha=0.2, if reward == -1: reward =0
