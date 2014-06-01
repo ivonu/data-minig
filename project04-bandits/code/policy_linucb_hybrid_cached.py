@@ -10,7 +10,7 @@ from numpy.linalg import inv
 # Evaluator will call this function and pass the article features.
 # Check evaluator.py description for details.
 
-alpha = 0.5
+alpha = 0.15
 
 #number of user features
 k = 6

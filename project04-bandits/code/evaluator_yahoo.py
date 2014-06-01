@@ -1,7 +1,7 @@
 #!/usr/bin/env python2.7
 import sys
 
-import policy_linucb as policy  # This is your policy file.
+import policy_linucb_hybrid_cached as policy  # This is your policy file.
 
 
 def read_articles(path):

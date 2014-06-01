@@ -72,6 +72,12 @@ moving alpha from 1 down every 100000 , *.98
 
 
 submission id 4734
+------------------
 d=6,
 only user features
 set datatypes to np.float64
+
+
+submission id 4820
+------------------
+hybrid cached, alpha=0.15
