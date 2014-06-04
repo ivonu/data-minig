@@ -66,7 +66,7 @@ $a_b=rand(0,999), b_b=rand(0,999)$, $c_b=1000$ and $rand(x,y)$ is random
 variable drawn from a uniform distribution between $x$ and $y$. These
 hashfunctions are used to calculate the band hashes before emitting.
 
-\item The signature is then created according to \autoref{alg:signature}
+\item The signature is then created according to algorithm \autoref{alg:signature}
 
 \begin{algorithm}
 
@@ -91,7 +91,7 @@ signature[i])$}
 
 
 \item Calculate the band hash and emit the band hash and the band as key, and
-the video with its corresponding shingles as value according to
+the video with its corresponding shingles as value according to algorithm
 \autoref{alg:emit}
 
 \begin{algorithm}
@@ -122,7 +122,7 @@ the reported similar videos using the jaccard distance:
 \begin{enumerate}
 
 \item gather all videos with the same key in a collection $duplicates$
-\item emit similar videos like shown in \autoref{alg:reducer}
+\item emit similar videos like shown in algorithm \autoref{alg:reducer}
 
 
 \begin{algorithm}
@@ -174,8 +174,8 @@ vector $w$ is emitted out of each mapper.
 
 \subsection{Feature transformation}
 
-To reduce the classification error, meaning having less wrongli classified
-image,s we implemented following transformations.
+To reduce the classification error, meaning having less wrongly classified
+images, we implemented the following feature transformations.
 
 \subsubsection{Normalisation}
 
@@ -253,7 +253,7 @@ We chose to run K-Means with k=200 centroids. A minor modification of the algori
 \subsubsection{Centroid Initialization}
 What we've learnt from this project is that initialisation really matters (in terms of score). We optimised initialization of the centroids in a way that the touch count is evenly spread. If a mappers K-Means algorithm trains a centroid which is never touched this specific one is most probably badly initialized.
 
-By playing around with a few parameters we came up with a \textbf{normally distributed} set of \textbf{initial centroids} with $\mu = 0$ and $\sigma = {1 \over 100}$.
+By trying out a few parameters we came up with a \textbf{normally distributed} set of \textbf{initial centroids} with $\mu = 0$ and $\sigma = {1 \over 100}$.
 
 \subsubsection{Learning Rate $\eta$}
 The next modification of the default online K-Means algorithm presented in the lecture is the learning rate. For centroid $i$ we keep track of a learning parameter $\eta_i = min \left(0.05, {1\over tc_i} \right)$. This way we decrease the parameters value down from 0.05 which worked best for us.
