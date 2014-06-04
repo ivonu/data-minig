@@ -1,8 +1,16 @@
-linucb disjoint alpha=0.25 end=0.68032
-linucb disjoint alpha=0.50 end=0.66471
-linucb disjoint alpha=0.75 end=0.066170 max=0.068165
-linucb disjoint alpha=1.00 end=0.062393 max=0.064020
+linucb disjoint
+alpha=0.20 end=0.067251 max=0.070130
+alpha=0.25 end=0.680320
+alpha=0.50 end=0.664710
+alpha=0.75 end=0.066170 max=0.068165
+alpha=1.00 end=0.062393 max=0.064020
+alpha=0.20 beta=0.01 gamma=1.00  end=0.068975 max=0.071317
+alpha=0.20 beta=0.01 gamma=0.01  end=0.068378 max=0.070505
+alpha=0.20 beta=0.01 gamma=0.001 end=0.067897 max=0.070542
+alpha=0.25 beta=0.01 gamma=1.0   end=0.068266 max=0.071324
+alpha=0.25 beta=0.01 gamma=0.001 end=0.068856 max=0.071617
 
-linucb hybrid cached alpha=0.25 end=0.055155 max=0.058637
-linucb hybrid cached alpha=0.50 end=0.062924 max=0.064165
-linucb hybrid cached alpha=0.75 end=0.060900 max=0.061924
+linucb hybrid cached
+alpha=0.25 end=0.055155 max=0.058637
+alpha=0.50 end=0.062924 max=0.064165
+alpha=0.75 end=0.060900 max=0.061924
