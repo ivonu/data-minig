@@ -276,7 +276,7 @@ The touch counts are considered as follows: When K-Means iterates over one point
 
 \section{Explore-Exploit Tradeoffs in Recommender Systems}
 
-For project 4 we implemented different algorithms. Namely the two algorithms LinUCB and Hybrid LinUCB described in paper \cite{li2010contextual}. The highest score was reached with a simple version of LinUCB which only considers user context data. As soon as we added article data the test score got worse
+For project 4 we implemented different algorithms. Namely the two algorithms LinUCB and Hybrid LinUCB described in paper \cite{li2010contextual}. The highest score was reached with a simple version of LinUCB which only considers user context data. As soon as we added article data the test score got worse.
 
 \subsection{Features}
 Depending on what time of the day a user wants to access different articles. One could imagine that at work a typical user prefers articles about news while in the evening a normal user wants articles about entertainment, night life etc.
@@ -287,13 +287,13 @@ $ min\left(  hh / 24, (24 - hh) / 24\right)$
 
 where $hh$ is the current hour of the day. This basically describes a pyramid function. The intuition behind is that similar hours of day should yield similar feature values.
 
-However adding this feature decreased our score. We assume that timestamps are maybe not local timestamps. If log is collected from different time zones this may distort our user feature vector.
+However adding this feature decreased our score. We assume that timestamps are maybe not local timestamps. If log is collected from different time zones this may distort our user newly constructed feature.
 
 
 \subsection{Clustered UCB1}
 As a first implementation we tried clustering the users to user groups using a simple online k-Means algorithm with a $k=7$. Then we applied the simple plain UCB1 algorithm. For each user group we memorized the mean reward and the corresponding upper confidence bound. The performance of this algorithm however was quite poor.
 
-Graph \ref{fig:proj4-kmeans_users} shows number of cluster center for user groups with the mean distance of the individual users to their corresponding center. We assumed a good number of clusters to be $7$
+Graph \ref{fig:proj4-kmeans_users} shows number of cluster center for user groups with the mean distance of the individual users to their corresponding center. We assumed a good number of clusters to be $7$.
 
 \begin{figure}[H]
 \centering
