@@ -16,7 +16,8 @@ import numpy.linalg as linalg
 d = 6
 
 alpha = .2
-beta = 0.2
+beta = 0.01
+gamma = 1.0
 As = {}
 AInvs = {}
 bs = {}
@@ -68,6 +69,7 @@ def update(reward):
 def reccomend(timestamp, user_features, art_ids):
     global alpha
     global beta
+    global gamma
     global current_art_id
     global current_user_features
     global As
@@ -94,7 +96,7 @@ def reccomend(timestamp, user_features, art_ids):
         theta_a = thetas[art_id]
         a = theta_a.dot(user_features)
         b = alpha * np.sqrt(user_features.dot(A_inv).dot(user_features))
-        c = beta * np.exp(-(timestamp - timestamps[art_id]))
+        c = beta * np.exp(-gamma * (timestamp - timestamps[art_id]))
         ucb = a + b + c
 
         if ucb > max_ucb:
