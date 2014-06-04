@@ -242,7 +242,7 @@ the error with the remaining data.
 \section{Extracting Representative Elements From Large Datasets}
 This section describes the implementation of project 3. The goal of this task was to extract representative elements from a large image dataset.
 
-Generally speaking we implemented online K-Means for both the mapper and the reducer. In doing so we nearly reached the hard baseline (score 741.96).
+Generally speaking we implemented online K-Means for both the mapper and the reducer. In doing so we nearly reached the hard baseline (score 740.820).
 
 
 \subsection{Mapper}
@@ -310,6 +310,16 @@ Implementing the significantly more complicated hybrid yielded significantly wor
 The best performance was reached with the LinUCB algorithm from paper \cite{li2010contextual}. We ignored article information and considered only user context data. With an $\alpha$ value of $0.2$ we reached the best performance. 
 
 Every attempt to use the article features resulted in worse score than omitting them.
+
+\subsubsection{set\_articles}
+The set\_articles function initializes per article a 6x6 identity matrix A and a 1x6 zero vector b. For caching reasons it also initializes the inverse of the A matrix and the theta vector from LinUCB.
+
+\subsubsection{recommend}
+The recommend function implements the part of the LinUCB algorithm where the largest upper confidence bound is searched. It computes the upper confidence bound for each article using the cached inverted A matrix and the theta vector.
+It returns the article with the highest upper confidence bound and saves it and the current user features for use in the update step.
+
+\subsubsection{update}
+If the reward was -1 we return from the function. Otherwise we update the data structures according to the LinUCB algorithm.
 
 \subsection{Local Testing}
 To locally evaluate our code we downloaded the yahoo dataset from \url{http://webscope.sandbox.yahoo.com/catalog.php?datatype=r}. We changed the local evaluator.py code to be able to handle the data.
