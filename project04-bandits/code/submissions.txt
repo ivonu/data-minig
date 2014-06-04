@@ -91,6 +91,7 @@ submission id 4827
 ------------------
 linucb alpha=0.2, if reward == -1: reward =0
 
+
 submission id 5105
 ------------------
 linucb timestamp alpha=0.2, beta=0.01, gamma=1.0
@@ -98,3 +99,21 @@ linucb timestamp alpha=0.2, beta=0.01, gamma=1.0
 submission id 5108
 ------------------
 linucb timestamp alpha=0.25, beta=0.01, gamma=0.001
+
+
+submission id 5157
+------------------
+linucb timestamp alpha = 0.25 beta = 0.01 gamma = 1.0, if reward == -1: reward=0
+
+submission id 5158
+------------------
+linucb timestamp alpha = 0.2 beta = 0.01 gamma = 1.0, if reward == -1: reward=0
+
+submission id 5159
+------------------
+linucb timestamp alpha = 0.2 beta = 0.01 gamma = 0.001, if reward == -1: reward=0
+
+
+submission id 5170
+------------------
+linucb timestamp alpha = 0.25 beta = 0.01 gamma = 1.0

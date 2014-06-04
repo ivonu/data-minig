@@ -15,7 +15,7 @@ import numpy.linalg as linalg
 # number of user features
 d = 6
 
-alpha = .2
+alpha = 0.25
 beta = 0.01
 gamma = 1.0
 As = {}
@@ -25,9 +25,8 @@ thetas = {}
 articles = {}
 current_art_id = 0
 current_user_features = np.zeros(6)
-
-
 timestamps = {}
+
 
 def set_articles(art):
     global d
