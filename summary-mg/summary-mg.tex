@@ -39,6 +39,21 @@ $\forall s,t,r : d(s,t) + d(t,r) \geq d(s,r)$
 
 Cosine Distance: $d(x,y) = arccos  {{x^T y}\over{ ||x||_2 ||y||_2}} $
 
+Jaccard Similarity: $Sim(A,B)$
+
+Jaccard Dist.: $d(A,B) = 1 - {{A \cap B}\over{A \cup B}} = 1 - Sim(A,B) $
+
+\subsection{k-Shingle}
+Represent documents as a set of k-Shingles.
+
+\subsection{Min-Hashing}
+Apply row permutation $\pi$ to shingle matrix (shingle/documents). Min-Hash for column $C: h(C) =$ minimum row index which contains a 1.
+
+Holds: $P[h(C1) = h(C2)] = Sim (C1,C2)$
+
+Use multiple permutations. Signature matrix $M$ (permutation/document) is now split into bands. Each band vector (Min-Hash values from permutation n to n+b of one document) is now hashed to another bucket. If a document is hashed to the same bucket for at least one band as another then both are similar.
+
+
 
 
 \section{Linear Algebra}
@@ -100,6 +115,8 @@ $m(U)= max_{i,j:i\neq j} | u_i^T u_j|$
 $f(\theta x + (1-\theta)y) \leq \theta f(x) + (1-\theta) f(y)$
 
 
+\section{Sidenotes}
 
+\textbf{Curse of Dimensionality}: The more dimensions the closer data points get to each other on average in terms of euclidean distance.
 
 \end{document}
