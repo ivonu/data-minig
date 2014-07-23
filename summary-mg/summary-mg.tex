@@ -1,0 +1,105 @@
+\documentclass[a4paper,11pt,twocolumn]{article}
+
+\author{Matthias Ganz}
+
+% Two A4-pages (i.e. one A4-sheet of paper), either handwritten or 11 point minimum font size
+
+\usepackage{url}
+\usepackage{graphicx}	% For figure environment
+\usepackage[center]{subfigure}
+\usepackage{amssymb}	% For mathematical figures like \mathbb{R}
+\usepackage{amsmath}
+\usepackage{framed}
+\usepackage{epstopdf}
+\usepackage{geometry}
+\geometry{a4paper, top=6mm, left=7mm, right=7mm, bottom=8mm, headsep=0mm, footskip=0mm}
+
+
+\usepackage[compact]{titlesec}
+
+\begin{document}
+
+
+\section{Approximate Retrieval}
+Dataset $S \subset \mathbb{R}^D$ , distance function $d: \mathbb{R}^D \times \mathbb{R}^D \leftarrow \mathbb{R}$
+
+Nearest neighbour $s^* = \arg\min \limits_{s \in S} d(q,s) $ for query $q$
+
+Near duplicate detection: find all s,s' in S with distance at most $\epsilon$
+
+\subsection{Distance Function $d: S \times S  \rightarrow \mathbb{R}$}
+
+$\forall s,t \in S : d(s,t) \geq 0$
+
+$\forall s: d(s,s) = 0$
+
+$\forall s,t:d(s,t) = d(t,s)$
+
+$\forall s,t,r : d(s,t) + d(t,r) \geq d(s,r)$
+
+Cosine Distance: $d(x,y) = arccos  {{x^T y}\over{ ||x||_2 ||y||_2}} $
+
+
+
+\section{Linear Algebra}
+
+\subsection{Vector Norms}
+are positive scalable, full-fill the triangular inequality, norm of 0 is 0
+
+\subsubsection{p-Norm}
+$ || x ||_p = \left( \sum_{i=1}^{n}{|x_i|^p} \right)^{\frac{1}{p}}$
+
+\subsubsection{Euclidean Norm} 
+p-Norm where $p=2$
+
+\subsubsection{1-Norm}
+Manhattan-Norm
+$ ||x||_1 = \sum_{i=1}^{n}{|x_i|} $
+
+\subsubsection{Zero-Norm} 
+counts the number of non-zero entries.
+
+\subsection{Matrix Norms}
+
+\subsubsection{Nuclear Norm}
+
+$|| . ||_*$ sum of singular values
+
+\subsubsection{Frobenious-Norm}
+$sqrt(sum(sum(A.^2)))$
+
+\subsubsection{Spectral Norm} 
+Largest singular value if square 
+
+$||A||_2 = \sigma_{max}(A)$ 
+~~Is equals to the 2-Norm
+
+\subsubsection{Induced Matrix Norms}
+$ ||A|| = max \left( \frac{ ||Ax|| }{ ||x|| } \right)$
+
+\subsection{Orthogonality}
+
+\subsubsection{Vectors} 
+
+inner (scalar) product $\langle ~.~,~.~ \rangle = 0$
+
+\subsubsection{Matrices} 
+
+quadratic, values are in $\mathbb{R}$, $Q^T = Q^{-1}$
+
+\subsubsection{Functions}
+
+$f(x)$ orth. to $g(x)$ if $0 = \int f(x) g(x) dx $
+
+\subsubsection{Coherence}
+
+$m(U)= max_{i,j:i\neq j} | u_i^T u_j|$
+
+\subsubsection{Convexity}
+
+$f(\theta x + (1-\theta)y) \leq \theta f(x) + (1-\theta) f(y)$
+
+
+
+
+\end{document}
