@@ -46,7 +46,7 @@ Jaccard Dist.: $d(A,B) = 1 - {{A \cap B}\over{A \cup B}} = 1 - Sim(A,B) $
 \subsection{k-Shingle}
 Represent documents as a set of k-Shingles.
 
-\subsection{Min-Hashing}
+\subsection{Min-Hashing for Jaccard Distance}
 Apply row permutation $\pi$ to shingle matrix (shingle/documents). Min-Hash for column $C: h(C) =$ minimum row index which contains a 1.
 
 Holds: $P[h(C1) = h(C2)] = Sim (C1,C2)$
@@ -54,6 +54,41 @@ Holds: $P[h(C1) = h(C2)] = Sim (C1,C2)$
 Use multiple permutations. Signature matrix $M$ (permutation/document) is now split into bands. Each band vector (Min-Hash values from permutation n to n+b of one document) is now hashed to another bucket. If a document is hashed to the same bucket for at least one band as another then both are similar.
 
 
+\subsubsection{$(d_1,d_2,p_1,p_2)$-sensitive Hash-Functions}
+
+$\forall x,y \in S : d(x,y) \leq  d_1 \Rightarrow P[h(x)=h(y)] \geq p_1$
+
+$\forall x,y \in S : d(x,y) \geq  d_2 \Rightarrow P[h(x)=h(y)] \leq p_2$
+
+\subsubsection{r-way AND}
+Convert hash family $F$ to $F'$. Each member of $F'$ consists of a vector of r hash functions from $F$
+
+$F'$ is $(d_1, d_2, p_1^r, p_2^r)$-sensitive, decreases false positives.
+
+\subsubsection{b-way OR}
+Convert hash family $F$ to $F'$. Each member of $F'$ consists of a vector of r hash functions from $F$
+
+$F'$ is $(d_1, d_2, 1-(1-p_1)^b, 1-(1-p_2)^b)$-sensitive, decreases false negatives.
+
+AND-OR: $(d_1,d_2,1-(1-p_1^r)^b,1-(1-p_2^r)^b)$
+
+OR-AND: $(d_1,d_2,1-((1-p_1)^b)^r,1-((1-p_2)^b)^r)$
+
+
+
+
+\subsection{LSH for euclidean Distance}
+Map points to random line with "buckets". Pick $w \in \mathbb{R}, ||w||_2 = 1$ and $b \in [0,a]$ unif. with bucket-width $a$.
+
+$h_{w,b}(x) = 
+\lfloor
+{{w^Tx + b}\over{a}}
+\rfloor$
+
+\subsection{LSH for cosine Distance}
+Pick $w \in \mathbb{R}^d$ with $||w||_2=1$ uniform at random.
+
+$h_w(x) = sign(w^Tx)$
 
 
 \section{Linear Algebra}
