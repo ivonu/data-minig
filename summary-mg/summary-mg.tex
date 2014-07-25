@@ -4,6 +4,7 @@
 
 % Two A4-pages (i.e. one A4-sheet of paper), either handwritten or 11 point minimum font size
 
+\usepackage{enumitem}
 \usepackage{url}
 \usepackage{graphicx}	% For figure environment
 \usepackage[center]{subfigure}
@@ -90,8 +91,55 @@ Pick $w \in \mathbb{R}^d$ with $||w||_2=1$ uniform at random.
 
 $h_w(x) = sign(w^Tx)$
 
+\section{Classification}
+
+\subsection{Online SVM}
+Classify new datapoint $x_t$ with $y_t = sign(w_t^Tx_t)$, incur loss $l_t = \max (0,1-y_t w_t^T x_t)$ Update $w_{t+1} = w_t - \eta_t \nabla f_t(w_t)$
+
+Project back: $Proj_X(w) = arg \min \limits_{w' \in S} ||w' - w||_2$
+
+Regret $R_T = (\sum \limits_{t=1}^T l_t) - \min \limits_{w \in S} \sum \limits_{t=1}^T f_t(w)$
+
+For OCP Update: if $y_t w_t^T x_t < 1$ then 
+$w'=w_t+\eta_t y_t x_t$
+$w_t+1 = w' \min (1,{{1}\over{\sqrt{\lambda w'^T w'}}})$
+
+
+\section{Active Learning}
+Online learning (stream based) active learning: Data arrives, we decide whether to request label or not.
+
+Pool-based learning: Unlearned dataset, can request labels for points.
+
+\subsection{Uncertainty Sampling}
+For SVM chose points close to decision boundary. Use LSH for cosine distance on line orthogonal to boundary $w$.
+
+\subsection{Informative Sampling}
+Sample to get maximal reduction of version space.
+
+
+\section{Online k-Means}
+\begin{itemize}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt]
+\item for $t=1:N$
+\begin{itemize}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt]
+\item find $c = arg \min \limits_j ||\mu_j - x_t ||_2$
+\item set $ \mu_c = \mu_c+ \eta_t ( x_t - \mu_c)$
+\end{itemize}
+\end{itemize}
+
+\subsection{Coresets}
+
+
 
 \section{Linear Algebra}
+
+\subsection{Convex Functions}
+$\forall x,y, \lambda \in [0,1] : \lambda f(x) + (1-\lambda)f(y) \geq f(\lambda x +  (1-\lambda) y)$
+
+\subsection{H-Strong Convex}
+$f(y) \geq f(x) + \nabla f(x)^T(y-x) + {H \over 2 } || y - x ||_2^2$
+
+\subsection{Subgradient Functions}
+$\forall x' \in S : f(x') \geq f(x) + g_x^T(x'-x)$
 
 \subsection{Vector Norms}
 are positive scalable, full-fill the triangular inequality, norm of 0 is 0
@@ -149,6 +197,22 @@ $m(U)= max_{i,j:i\neq j} | u_i^T u_j|$
 
 $f(\theta x + (1-\theta)y) \leq \theta f(x) + (1-\theta) f(y)$
 
+
+\section{Convex optimisation}
+
+minimize $f(x)$ subject to 
+
+$g_i(x) \leq 0, i = 1,...,m$ inequality constr.
+
+$h_i(x) = 0, i = 1,...,p$ equality constr.
+
+Create the Lagrangian
+
+$L(x, \lambda, \nu) = f(x) + \sum_{i=1}^m{\lambda_i g_i(x) + \sum_{i=1}^p{\nu_i h_i(x)}}$
+
+Lagrange dual function: $ d(\lambda, \nu) = \inf_{x} L (x,\lambda, \nu) $
+
+Lagrange dual problem: max. $d(\lambda, \nu)$  subj. to $\lambda \geq 0$
 
 \section{Sidenotes}
 
