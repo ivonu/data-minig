@@ -111,10 +111,10 @@ Online learning (stream based) active learning: Data arrives, we decide whether 
 Pool-based learning: Unlearned dataset, can request labels for points.
 
 \subsection{Uncertainty Sampling}
-For SVM chose points close to decision boundary. Use LSH for cosine distance on line orthogonal to boundary $w$.
+For SVM chose points close to decision boundary. Use LSH for cosine distance on line orthogonal to boundary $w$. Efficient but may fail.
 
 \subsection{Informative Sampling}
-Sample to get maximal reduction of version space.
+Sample to get maximal reduction of version space. Computationally expensive.
 
 
 \section{Online k-Means}
@@ -126,9 +126,48 @@ Sample to get maximal reduction of version space.
 \end{itemize}
 \end{itemize}
 
-\subsection{Coresets}
+\subsection{$(k,\epsilon)$-Coresets}
+
+$(1-\epsilon)L_k(\mu;D) \leq 
+L_k(\mu;C) \leq
+(1+\epsilon)L_k(\mu;D)$
+
+\section{Bandits}
+
+\subsection{$\epsilon$-greedy strategy}
+At round $t$ choose with prob. $\epsilon_t$ whether to explore or exploit. Bad: Explore chooses suboptimal choices with equal prob.
+
+\subsection{UCB - Upper confidence Bound}
+For each arm $i$ calculate $UCB_t(i) = 
+\mu_i + 
+\sqrt{{2~ln~t} \over n_i}$	
+
+\subsection{Contextual Bandits}
+Observe context $z_t \in Z$, pick $x_t \in A_t$, observe $y_t = f(x_t, z_t) + \epsilon_t$
+
+\subsubsection{Linear recommendation}
+Observer $z_t \in \mathbb{R}^d$, pick recommendation $x_t \in A_t$, observe $y_t = w_{x_t}^T z_t + \epsilon_t$.
+
+Looks like linear regression 
+$w_i = arg \min \limits_w \sum \limits_{t=1}^m (y_t - w^T z_t)^2 + ||w||_2^2$ 
+with closed form solution $w_i = (D_i^T D_i + I)^{-1} D_i^T y_i$
+
+\subsection{Submodular Bandits}
+
+F is (nonnegative) \textbf{monotone}: 
+
+$A \subseteq B \Rightarrow 0 \leq F(A)  \leq F(B)$
 
 
+F is \textbf{submodular}: 
+
+$\forall A \subseteq B, s \notin B:  F(A \cup \lbrace s  \rbrace) - F(A) \geq F(B \cup \lbrace s \rbrace ) - F(B)$
+
+
+
+If $F_1,...,F_m$ submodular and $\lambda_1,...,\lambda_m \geq 0 $ then
+
+$F(A) = \sum_i \lambda_i F_i(A)$ is submodular 
 
 \section{Linear Algebra}
 
