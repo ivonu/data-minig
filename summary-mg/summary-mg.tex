@@ -260,6 +260,11 @@ $m(U)= max_{i,j:i\neq j} | u_i^T u_j|$
 
 $f(\theta x + (1-\theta)y) \leq \theta f(x) + (1-\theta) f(y)$
 
+\section{Differentials}
+
+$ f(g(x)) \frac{d}{dx} = f'(g(x)) \cdot g'(x)$, $ {d \over {dx}} log(x) = {1 \over x}$, $ {d \over {dx}} e^{ax} = ae^{ax}$
+
+
 
 \section{Convex optimisation}
 
@@ -276,6 +281,17 @@ $L(x, \lambda, \nu) = f(x) + \sum_{i=1}^m{\lambda_i g_i(x) + \sum_{i=1}^p{\nu_i 
 Lagrange dual function: $ d(\lambda, \nu) = \inf_{x} L (x,\lambda, \nu) $
 
 Lagrange dual problem: max. $d(\lambda, \nu)$  subj. to $\lambda \geq 0$
+
+\section{Probability}
+
+\textbf{Independence} $E[XY] = E[X] E[Y]$
+
+\textbf{Covariance}: $Cov(X_1, X_2) = E[X_1 X_2] - E[X_1] E[X_2] = E[(X_1 - E[X_1])(X_2-E[X_2])]$
+
+\textbf{Variance}: $Var[X] = E[X^2] - E[X]^2$
+
+
+\textbf{Chain rule}: $P(X,Y) = {{P(X,Y)P(Y)}\over{P(Y)}} = P(X|Y)P(Y)$
 
 \section{Sidenotes}
 
