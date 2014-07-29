@@ -152,7 +152,7 @@ Looks like linear regression
 $w_i = arg \min \limits_w \sum \limits_{t=1}^m (y_t - w^T z_t)^2 + ||w||_2^2$ 
 with closed form solution $w_i = (D_i^T D_i + I)^{-1} D_i^T y_i$
 
-\subsection{Submodular Bandits}
+\section{Submodularity}
 
 F is (nonnegative) \textbf{monotone}: 
 
@@ -169,10 +169,34 @@ If $F_1,...,F_m$ submodular and $\lambda_1,...,\lambda_m \geq 0 $ then
 
 $F(A) = \sum_i \lambda_i F_i(A)$ is submodular 
 
+\textbf{Restriction}: $F(S)$ submodular on V,where $W \subseteq V$. Then $F'(S) = F(S \cap W)$ is submodular.
+
+\textbf{Conditioning}: $F'(S) = F(S \cup W)$ is submodular.
+
+\textbf{Reflection}: $F'(S) = F(S \backslash W)$ is submodular.
+
+\subsection{General}
+\begin{itemize}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt]
+\item min, max are in general no submodular functions
+\item Submodular can be seen as concave functions
+\end{itemize} 
+
+\subsection{Lazy Greedy optimisation}
+\begin{itemize}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt]
+\item first iteration as usual
+\item keep an ordered list of marginal benefits $\Delta_i$ from previous iteration
+\item 	Re-evaluate $\Delta_i$ only for the top most element.
+\item if $\Delta_i$ stays on top, use it otherwise resort
+\end{itemize}
+
+
+
 \section{Linear Algebra}
 
 \subsection{Convex Functions}
 $\forall x,y, \lambda \in [0,1] : \lambda f(x) + (1-\lambda)f(y) \geq f(\lambda x +  (1-\lambda) y)$
+
+Can be shown with 2nd derivative to be always positive.
 
 \subsection{H-Strong Convex}
 $f(y) \geq f(x) + \nabla f(x)^T(y-x) + {H \over 2 } || y - x ||_2^2$
