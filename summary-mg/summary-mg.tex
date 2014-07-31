@@ -42,7 +42,7 @@ Cosine Distance: $d(x,y) = arccos  {{x^T y}\over{ ||x||_2 ||y||_2}} $
 
 Jaccard Similarity: $Sim(A,B)$
 
-Jaccard Dist.: $d(A,B) = 1 - {{A \cap B}\over{A \cup B}} = 1 - Sim(A,B) $
+Jaccard Dist.: $d(A,B) = 1 - {{|A \cap B|}\over{|A \cup B|}} = 1 - Sim(A,B) $
 
 \subsection{k-Shingle}
 Represent documents as a set of k-Shingles.
@@ -111,7 +111,7 @@ Online learning (stream based) active learning: Data arrives, we decide whether 
 Pool-based learning: Unlearned dataset, can request labels for points.
 
 \subsection{Uncertainty Sampling}
-For SVM chose points close to decision boundary. Use LSH for cosine distance on line orthogonal to boundary $w$. Efficient but may fail.
+For SVM chose points close to decision boundary $x^* = arg \min \limits_{x_i \in U} |w^T x_i| $. Use LSH for cosine distance on line orthogonal to boundary $w$. Efficient but may fail.
 
 \subsection{Informative Sampling}
 Sample to get maximal reduction of version space. Computationally expensive.
@@ -184,6 +184,8 @@ $F(A) = \sum_i \lambda_i F_i(A)$ is submodular
 \textbf{Concave} func.: 
 
 $\forall a \leq b, s \geq 0 : f(a+s)- f(a) \geq f(b+s) -f(b)$
+
+other def. $f(a+s) \geq \lambda f(a) + (1-\lambda) g(b)$
 
 \subsection{Lazy Greedy optimisation}
 \begin{itemize}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt]
