@@ -152,6 +152,24 @@ Looks like linear regression
 $w_i = arg \min \limits_w \sum \limits_{t=1}^m (y_t - w^T z_t)^2 + ||w||_2^2$ 
 with closed form solution $w_i = (D_i^T D_i + I)^{-1} D_i^T y_i$
 
+\section{Evaluation: Rejection Sampling}
+Rejection sampling for contextual Bandit
+\begin{itemize}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt]
+\item For $t=1$ to $\infty$
+\begin{itemize}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt]
+\item Get next event $(x_t^{(1)},...,x_t^{(k)},z_t,a_t,y_t)$ from log
+\item use bandit algorithm to pick $a'_t$
+\item if $a'_t = a_t$
+
+\begin{itemize}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt]
+\item feedback reward $y_t$ to the algorithm
+\end{itemize}
+
+\item else ignore line
+\end{itemize}
+\item Stop when T events have been kept
+\end{itemize}
+
 \section{Submodularity}
 
 F is (nonnegative) \textbf{monotone}: 
