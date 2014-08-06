@@ -102,7 +102,8 @@ Project back: $Proj_X(w) = arg \min \limits_{w' \in S} ||w' - w||_2$
 
 For OCP Update: if $y_t w_t^T x_t < 1$ then 
 $w'=w_t+\eta_t y_t x_t$
-$w_t+1 = w' \min (1,{{1}\over{\sqrt{\lambda w'^T w'}}})$
+
+$w_{t+1} = w_t \min (1,{{1}\over{\sqrt{\lambda w'^T w'}}})$
 
 
 \section{Active Learning}
@@ -111,7 +112,12 @@ Online learning (stream based) active learning: Data arrives, we decide whether 
 Pool-based learning: Unlearned dataset, can request labels for points.
 
 \subsection{Uncertainty Sampling}
-For SVM chose points close to decision boundary $x^* = arg \min \limits_{x_i \in U} |w^T x_i| $. Use LSH for cosine distance on line orthogonal to boundary $w$. Efficient but may fail.
+Efficient but may fail. For SVM chose points close to decision boundary $x^* = arg \min \limits_{x_i \in U} |w^T x_i| $. 
+
+\subsubsection{Sublinear Time active selection}
+Use two random vectors $u$,$v$. Hash data once with 
+
+$sign(u^T w), sign(v^T w)$ Do hyperplane query with $sign(u^Tw)$,$sign(v^T -w)$. Do uncertainty sampling with queried data points.
 
 \subsection{Informative Sampling}
 Sample to get maximal reduction of version space. Computationally expensive.
