@@ -103,7 +103,7 @@ Project back: $Proj_X(w) = arg \min \limits_{w' \in S} ||w' - w||_2$
 For OCP Update: if $y_t w_t^T x_t < 1$ then 
 $w'=w_t+\eta_t y_t x_t$
 
-$w_{t+1} = w_t \min (1,{{1}\over{\sqrt{\lambda w'^T w'}}})$
+$w_{t+1} = w_t \min (1,{{C}\over{\sqrt{w'^T w'}}}); s.t. ||w||_2 \leq C$
 
 \subsection{Unconstrained SVM}
 Objective: $\min \limits_w w^T w + C \sum \limits_i loss_{hinge} (x_i,y_i;w)
@@ -137,9 +137,37 @@ Sample to get maximal reduction of version space. Computationally expensive.
 
 \subsection{$(k,\epsilon)$-Coresets}
 
-$(1-\epsilon)L_k(\mu;D) \leq 
-L_k(\mu;C) \leq
-(1+\epsilon)L_k(\mu;D)$
+$(1-\epsilon)L_k(\mu;\mathcal{D}) \leq 
+L_k(\mu;\mathcal{C}) \leq
+(1+\epsilon)L_k(\mu;\mathcal{D})$
+
+\subsubsection{Proof that Coreset is Unbiased Estimator }
+
+$\mathbb{E}_C [ L_k ( \mu;\mathcal{C})] = \mathbb{E}_{ \hat{x} \sim q} \left[
+{1 \over m}
+\sum \limits_{i=1}^m 
+{{d(\hat{x_i};\mu)}\over{q(\hat{x_i})}}
+\right]
+= {1 \over m}
+\sum \limits_{i=1}^m 
+\mathbb{E}_{ x \sim q}
+\left[
+{{d(x_i;\mu)}\over{q(x_i)}}
+\right]
+=
+\mathbb{E}_{ x \sim q}
+\left[
+{{d(x_i;\mu)}\over{q(x_i)}}
+\right]
+= 
+\sum \limits_{i=1}^N
+q(x_i) {{d(x_i;\mu)} \over {q(x_i)}}
+= 
+\sum \limits_{i=1}^N
+d(x_i;\mu)
+=
+L_k(\mu;\mathcal{D})
+$
 
 \section{Bandits}
 
@@ -243,8 +271,8 @@ are positive scalable, full-fill the triangular inequality, norm of 0 is 0
 \subsubsection{p-Norm}
 $ || x ||_p = \left( \sum_{i=1}^{n}{|x_i|^p} \right)^{\frac{1}{p}}$
 
-\subsubsection{Euclidean Norm} 
-p-Norm where $p=2$
+%\subsubsection{Euclidean Norm} 
+%p-Norm where $p=2$
 
 \subsubsection{1-Norm}
 Manhattan-Norm
@@ -255,20 +283,17 @@ counts the number of non-zero entries.
 
 \subsection{Matrix Norms}
 
-\subsubsection{Nuclear Norm}
+\paragraph{Nuclear Norm} $|| . ||_*$ sum of singular values
 
-$|| . ||_*$ sum of singular values
 
-\subsubsection{Frobenious-Norm}
-$sqrt(sum(sum(A.^2)))$
+\paragraph{Frobenious-Norm} $sqrt(sum(sum(A.^2)))$
 
-\subsubsection{Spectral Norm} 
-Largest singular value if square 
+\paragraph{Spectral Norm} Largest singular value if square 
 
 $||A||_2 = \sigma_{max}(A)$ 
 ~~Is equals to the 2-Norm
 
-\subsubsection{Induced Matrix Norms}
+\paragraph{Induced Matrix Norms}
 $ ||A|| = max \left( \frac{ ||Ax|| }{ ||x|| } \right)$
 
 \subsection{Orthogonality}
@@ -281,13 +306,13 @@ inner (scalar) product $\langle ~.~,~.~ \rangle = 0$
 
 quadratic, values are in $\mathbb{R}$, $Q^T = Q^{-1}$
 
-\subsubsection{Functions}
+%\subsubsection{Functions}
 
-$f(x)$ orth. to $g(x)$ if $0 = \int f(x) g(x) dx $
+%$f(x)$ orth. to $g(x)$ if $0 = \int f(x) g(x) dx $
 
-\subsubsection{Coherence}
+%\subsubsection{Coherence}
 
-$m(U)= max_{i,j:i\neq j} | u_i^T u_j|$
+%$m(U)= max_{i,j:i\neq j} | u_i^T u_j|$
 
 \subsubsection{Convexity}
 
@@ -330,8 +355,8 @@ Lagrange dual problem: max. $d(\lambda, \nu)$  subj. to $\lambda \geq 0$
 
 \textbf{Chain rule}: $P(X,Y) = {{P(X,Y)P(Y)}\over{P(Y)}} = P(X|Y)P(Y)$
 
-\section{Sidenotes}
+%\section{Sidenotes}
 
-\textbf{Curse of Dimensionality}: The more dimensions the closer data points get to each other on average in terms of euclidean distance.
+%\textbf{Curse of Dimensionality}: The more dimensions the closer data points get to each other on average in terms of euclidean distance.
 
 \end{document}
