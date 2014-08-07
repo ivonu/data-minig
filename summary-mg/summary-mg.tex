@@ -13,7 +13,7 @@
 \usepackage{framed}
 \usepackage{epstopdf}
 \usepackage{geometry}
-\geometry{a4paper, top=6mm, left=7mm, right=7mm, bottom=8mm, headsep=0mm, footskip=0mm}
+\geometry{a4paper, top=5mm, left=5mm, right=5mm, bottom=5mm, headsep=0mm, footskip=0mm}
 
 
 \usepackage[compact]{titlesec}
@@ -169,6 +169,88 @@ d(x_i;\mu)
 L_k(\mu;\mathcal{D})
 $
 
+
+\subsubsection{Proof variance Reduction}
+
+$
+Var_{\mathcal{C}}(L_k(\mu;\mathcal{C}))
+=
+Var_{\hat{x_i} \sim q} 
+\left[
+{1 \over m}
+\sum \limits_{i=1}^m
+{d(\hat{x_i};\mu) \over q(\hat{x_i})}
+\right]
+=
+{1 \over m^2}
+\sum \limits_{i=1}^m
+Var_{x_i \sim q} 
+\left[
+{d(x_i;\mu) \over q(x_i)}
+\right]
+=
+{1 \over m}
+Var_{x_i \sim q} 
+\left[
+{d(x_i;\mu) \over q(x_i)}
+\right]
+=
+{1 \over m}
+\left(
+\mathbb{E}_{x_i \sim q}
+\left[
+\left(
+{d(x_i;\mu) \over q(x_i)}
+\right)^2
+\right]
+-
+\left[
+\mathbb{E}_{ x \sim q}
+\left[
+{{d(x_i;\mu)}\over{q(x_i)}}
+\right]
+\right]^2
+\right)
+=
+{1 \over m}
+\left(
+\mathbb{E}_{x_i \sim q}
+\left[
+\left(
+{d(x_i;\mu) \over q(x_i)}
+\right)^2
+\right]
+-
+const
+\right)
+=
+{1 \over m}
+\left(
+  {1 \over N}
+  \sum \limits_{i=1}^N
+  q(x_i) \cdot
+  \left(
+    {d(x_i;\mu) \over q(x_i)}
+  \right)^2
+-
+const
+\right)
+=
+{1 \over {Nm}}
+\left(
+\sum \limits_{i=1}^N
+{{
+\left(
+d(x_i;\mu)
+\right)^2
+}
+\over
+q(x_i)
+}
+-const
+\right)
+$
+
 \section{Bandits}
 
 \subsection{$\epsilon$-greedy strategy}
@@ -298,11 +380,11 @@ $ ||A|| = max \left( \frac{ ||Ax|| }{ ||x|| } \right)$
 
 \subsection{Orthogonality}
 
-\subsubsection{Vectors} 
+\paragraph{Vectors} 
 
 inner (scalar) product $\langle ~.~,~.~ \rangle = 0$
 
-\subsubsection{Matrices} 
+\paragraph{Matrices} 
 
 quadratic, values are in $\mathbb{R}$, $Q^T = Q^{-1}$
 
