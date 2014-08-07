@@ -105,6 +105,9 @@ $w'=w_t+\eta_t y_t x_t$
 
 $w_{t+1} = w_t \min (1,{{1}\over{\sqrt{\lambda w'^T w'}}})$
 
+\subsection{Unconstrained SVM}
+Objective: $\min \limits_w w^T w + C \sum \limits_i loss_{hinge} (x_i,y_i;w)
+= \min \limits_w w^T w + C \sum \limits_i max(0,1-y_iw^T x_i)$
 
 \section{Active Learning}
 Online learning (stream based) active learning: Data arrives, we decide whether to request label or not.
