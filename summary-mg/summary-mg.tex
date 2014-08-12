@@ -44,8 +44,8 @@ Jaccard Similarity: $Sim(A,B)$
 
 Jaccard Dist.: $d(A,B) = 1 - {{|A \cap B|}\over{|A \cup B|}} = 1 - Sim(A,B) $
 
-\subsection{k-Shingle}
-Represent documents as a set of k-Shingles.
+%\subsection{k-Shingle}
+%Represent documents as a set of k-Shingles.
 
 \subsection{Min-Hashing for Jaccard Distance}
 Apply row permutation $\pi$ to shingle matrix (shingle/documents). Min-Hash for column $C: h(C) =$ minimum row index which contains a 1.
@@ -104,6 +104,14 @@ For OCP Update: if $y_t w_t^T x_t < 1$ then
 $w'=w_t+\eta_t y_t x_t$
 
 $w_{t+1} = w_t \min (1,{{C}\over{\sqrt{w'^T w'}}}); s.t. ||w||_2 \leq C$
+
+\subsubsection{Project to L1 Norm}
+Constrain $||w||_1 \leq c$ solve 
+$(w_1 - \theta) + (w_2 - \theta) = C$
+
+if $w_i < 0 $ then set $w_i$ to 0 and restart
+
+
 
 \subsection{Unconstrained SVM}
 Objective: $\min \limits_w w^T w + C \sum \limits_i loss_{hinge} (x_i,y_i;w)
@@ -265,7 +273,7 @@ For each arm $i$ calculate $UCB_t(i) =
 Observe context $z_t \in Z$, pick $x_t \in A_t$, observe $y_t = f(x_t, z_t) + \epsilon_t$
 
 \subsubsection{Linear recommendation}
-Observer $z_t \in \mathbb{R}^d$, pick recommendation $x_t \in A_t$, observe $y_t = w_{x_t}^T z_t + \epsilon_t$.
+Observe $z_t \in \mathbb{R}^d$, pick recommendation $x_t \in A_t$, observe $y_t = w_{x_t}^T z_t + \epsilon_t$.
 
 Looks like linear regression 
 $w_i = arg \min \limits_w \sum \limits_{t=1}^m (y_t - w^T z_t)^2 + ||w||_2^2$ 
