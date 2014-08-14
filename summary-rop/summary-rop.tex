@@ -1,0 +1,460 @@
+\documentclass[a4paper,11pt,twocolumn]{article}
+
+\author{Matthias Ganz, geaendert von Philipp Rohr}
+
+% Two A4-pages (i.e. one A4-sheet of paper), either handwritten or 11 point minimum font size
+
+\usepackage{enumitem}
+\usepackage{url}
+\usepackage{graphicx}	% For figure environment
+\usepackage[center]{subfigure}
+\usepackage{amssymb}	% For mathematical figures like \mathbb{R}
+\usepackage{amsmath}
+\usepackage{framed}
+\usepackage{epstopdf}
+\usepackage{geometry}
+\geometry{a4paper, top=5mm, left=5mm, right=5mm, bottom=5mm, headsep=0mm, footskip=0mm}
+
+
+\usepackage[compact]{titlesec}
+
+\begin{document}
+
+
+\section{Approximate Retrieval}
+Dataset $S \subset \mathbb{R}^D$ , distance function $d: \mathbb{R}^D \times \mathbb{R}^D \leftarrow \mathbb{R}$
+
+Nearest neighbour $s^* = \arg\min \limits_{s \in S} d(q,s) $ for query $q$
+
+Near duplicate detection: find all s,s' in S with distance at most $\epsilon$
+
+\subsection{Distance Function $d: S \times S  \rightarrow \mathbb{R}$}
+
+$\forall s,t \in S : d(s,t) \geq 0$
+
+$\forall s: d(s,s) = 0$
+
+$\forall s,t:d(s,t) = d(t,s)$
+
+$\forall s,t,r : d(s,t) + d(t,r) \geq d(s,r)$
+
+Cosine Distance: $d(x,y) = arccos  {{x^T y}\over{ ||x||_2 ||y||_2}} $
+
+Jaccard Similarity: $Sim(A,B)$
+
+Jaccard Dist.: $d(A,B) = 1 - {{|A \cap B|}\over{|A \cup B|}} = 1 - Sim(A,B) $
+
+%\subsection{k-Shingle}
+%Represent documents as a set of k-Shingles.
+
+\subsection{Min-Hashing for Jaccard Distance}
+Apply row permutation $\pi$ to shingle matrix (shingle/documents). Min-Hash for column $C: h(C) =$ minimum row index which contains a 1.
+
+Holds: $P[h(C1) = h(C2)] = Sim (C1,C2)$
+
+Use multiple permutations. Signature matrix $M$ (permutation/document) is now split into bands. Each band vector (Min-Hash values from permutation n to n+b of one document) is now hashed to another bucket. If a document is hashed to the same bucket for at least one band as another then both are similar.
+
+
+\subsubsection{$(d_1,d_2,p_1,p_2)$-sensitive Hash-Functions}
+
+$\forall x,y \in S : d(x,y) \leq  d_1 \Rightarrow P[h(x)=h(y)] \geq p_1$
+
+$\forall x,y \in S : d(x,y) \geq  d_2 \Rightarrow P[h(x)=h(y)] \leq p_2$
+
+\subsubsection{r-way AND}
+Convert hash family $F$ to $F'$. Each member of $F'$ consists of a vector of r hash functions from $F$
+
+$F'$ is $(d_1, d_2, p_1^r, p_2^r)$-sensitive, decreases false positives.
+
+\subsubsection{b-way OR}
+Convert hash family $F$ to $F'$. Each member of $F'$ consists of a vector of r hash functions from $F$
+
+$F'$ is $(d_1, d_2, 1-(1-p_1)^b, 1-(1-p_2)^b)$-sensitive, decreases false negatives.
+
+AND-OR: $(d_1,d_2,1-(1-p_1^r)^b,1-(1-p_2^r)^b)$
+
+OR-AND: $(d_1,d_2,1-((1-p_1)^b)^r,1-((1-p_2)^b)^r)$
+
+
+
+
+\subsection{LSH for euclidean Distance}
+Map points to random line with "buckets". Pick $w \in \mathbb{R}, ||w||_2 = 1$ and $b \in [0,a]$ unif. with bucket-width $a$.
+
+$h_{w,b}(x) = 
+\lfloor
+{{w^Tx + b}\over{a}}
+\rfloor$
+
+\subsection{LSH for cosine Distance}
+Pick $w \in \mathbb{R}^d$ with $||w||_2=1$ uniform at random.
+
+$h_w(x) = sign(w^Tx)$
+
+\section{Classification}
+
+\subsection{Online SVM}
+Classify new data point $x_t$ with $y_t = sign(w_t^Tx_t)$, incur loss $l_t = \max (0,1-y_t w_t^T x_t)$ Update $w_{t+1} = w_t - \eta_t \nabla f_t(w_t)$
+
+Project back: $Proj_X(w) = arg \min \limits_{w' \in S} ||w' - w||_2$
+
+\textbf{Regret} $R_T = (\sum \limits_{t=1}^T l_t) - \min \limits_{w \in S} \sum \limits_{t=1}^T f_t(w)$
+
+For OCP Update: if $y_t w_t^T x_t < 1$ then 
+$w'=w_t+\eta_t y_t x_t$
+
+$w_{t+1} = w_t \min (1,{{C}\over{\sqrt{w'^T w'}}}); s.t. ||w||_2 \leq C$
+
+\subsubsection{Project to L1 Norm}
+Constrain $||w||_1 \leq c$ solve 
+$(w_1 - \theta) + (w_2 - \theta) = C$
+
+if $w_i < 0 $ then set $w_i$ to 0 and restart
+
+
+
+\subsection{Unconstrained SVM}
+Objective: $\min \limits_w w^T w + C \sum \limits_i loss_{hinge} (x_i,y_i;w)
+= \min \limits_w w^T w + C \sum \limits_i max(0,1-y_iw^T x_i)$
+
+\section{Active Learning}
+Online learning (stream based) active learning: Data arrives, we decide whether to request label or not.
+
+Pool-based learning: Unlearned dataset, can request labels for points.
+
+\subsection{Uncertainty Sampling}
+Efficient but may fail. For SVM chose points close to decision boundary $x^* = arg \min \limits_{x_i \in U} |w^T x_i| $. 
+
+\subsubsection{Sublinear Time active selection}
+Use two random vectors $u$,$v$. Hash data once with 
+
+$sign(u^T w), sign(v^T w)$ Do hyperplane query with $sign(u^Tw)$,$sign(v^T -w)$. Do uncertainty sampling with queried data points.
+
+\subsection{Informative Sampling}
+Sample to get maximal reduction of version space. Computationally expensive.
+
+
+\section{Online k-Means}
+\begin{itemize}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt]
+\item for $t=1:N$
+\begin{itemize}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt]
+\item find $c = arg \min \limits_j ||\mu_j - x_t ||_2$
+\item set $ \mu_c = \mu_c+ \eta_t ( x_t - \mu_c)$
+\end{itemize}
+\end{itemize}
+
+\subsection{$(k,\epsilon)$-Coresets}
+
+$(1-\epsilon)L_k(\mu;\mathcal{D}) \leq 
+L_k(\mu;\mathcal{C}) \leq
+(1+\epsilon)L_k(\mu;\mathcal{D})$
+
+\subsubsection{Proof that Coreset is Unbiased Estimator }
+
+$\mathbb{E}_C [ L_k ( \mu;\mathcal{C})] = \mathbb{E}_{ \hat{x} \sim q} \left[
+{1 \over m}
+\sum \limits_{i=1}^m 
+{{d(\hat{x_i};\mu)}\over{q(\hat{x_i})}}
+\right]
+= {1 \over m}
+\sum \limits_{i=1}^m 
+\mathbb{E}_{ x \sim q}
+\left[
+{{d(x_i;\mu)}\over{q(x_i)}}
+\right]
+=
+\mathbb{E}_{ x \sim q}
+\left[
+{{d(x_i;\mu)}\over{q(x_i)}}
+\right]
+= 
+\sum \limits_{i=1}^N
+q(x_i) {{d(x_i;\mu)} \over {q(x_i)}}
+= 
+\sum \limits_{i=1}^N
+d(x_i;\mu)
+=
+L_k(\mu;\mathcal{D})
+$
+
+
+\subsubsection{Proof variance Reduction}
+
+$
+Var_{\mathcal{C}}(L_k(\mu;\mathcal{C}))
+=
+Var_{\hat{x_i} \sim q} 
+\left[
+{1 \over m}
+\sum \limits_{i=1}^m
+{d(\hat{x_i};\mu) \over q(\hat{x_i})}
+\right]
+=
+{1 \over m^2}
+\sum \limits_{i=1}^m
+Var_{x_i \sim q} 
+\left[
+{d(x_i;\mu) \over q(x_i)}
+\right]
+=
+{1 \over m}
+Var_{x_i \sim q} 
+\left[
+{d(x_i;\mu) \over q(x_i)}
+\right]
+=
+{1 \over m}
+\left(
+\mathbb{E}_{x_i \sim q}
+\left[
+\left(
+{d(x_i;\mu) \over q(x_i)}
+\right)^2
+\right]
+-
+\left[
+\mathbb{E}_{ x \sim q}
+\left[
+{{d(x_i;\mu)}\over{q(x_i)}}
+\right]
+\right]^2
+\right)
+=
+{1 \over m}
+\left(
+\mathbb{E}_{x_i \sim q}
+\left[
+\left(
+{d(x_i;\mu) \over q(x_i)}
+\right)^2
+\right]
+-
+const
+\right)
+=
+{1 \over m}
+\left(
+  {1 \over N}
+  \sum \limits_{i=1}^N
+  q(x_i) \cdot
+  \left(
+    {d(x_i;\mu) \over q(x_i)}
+  \right)^2
+-
+const
+\right)
+=
+{1 \over {Nm}}
+\left(
+\sum \limits_{i=1}^N
+{{
+\left(
+d(x_i;\mu)
+\right)^2
+}
+\over
+q(x_i)
+}
+-const
+\right)
+$
+
+\section{Bandits}
+
+\subsection{$\epsilon$-greedy strategy}
+At round $t$ choose with prob. $\epsilon_t$ whether to explore or exploit. Bad: Explore chooses suboptimal choices with equal prob.
+
+\subsection{UCB - Upper confidence Bound}
+For each arm $i$ calculate $UCB_t(i) = 
+\mu_i + 
+\sqrt{{2~ln~t} \over n_i}$	
+
+\subsection{Contextual Bandits}
+Observe context $z_t \in Z$, pick $x_t \in A_t$, observe $y_t = f(x_t, z_t) + \epsilon_t$
+
+\subsubsection{Linear recommendation}
+Observe $z_t \in \mathbb{R}^d$, pick recommendation $x_t \in A_t$, observe $y_t = w_{x_t}^T z_t + \epsilon_t$.
+
+Looks like linear regression 
+$w_i = arg \min \limits_w \sum \limits_{t=1}^m (y_t - w^T z_t)^2 + ||w||_2^2$ 
+with closed form solution $w_i = (D_i^T D_i + I)^{-1} D_i^T y_i$
+
+\section{Evaluation: Rejection Sampling}
+Rejection sampling for contextual Bandit
+\begin{itemize}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt]
+\item For $t=1$ to $\infty$
+\begin{itemize}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt]
+\item Get next event $(x_t^{(1)},...,x_t^{(k)},z_t,a_t,y_t)$ from log
+\item use bandit algorithm to pick $a'_t$
+\item if $a'_t = a_t$
+
+\begin{itemize}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt]
+\item feedback reward $y_t$ to the algorithm
+\end{itemize}
+
+\item else ignore line
+\end{itemize}
+\item Stop when T events have been kept
+\end{itemize}
+
+\section{Submodularity}
+
+F is (nonnegative) \textbf{monotone}: 
+
+$A \subseteq B \Rightarrow 0 \leq F(A)  \leq F(B)$
+
+
+F is \textbf{submodular}: 
+
+$\forall A \subseteq B, s \notin B:  F(A \cup \lbrace s  \rbrace) - F(A) \geq F(B \cup \lbrace s \rbrace ) - F(B)$
+
+
+
+If $F_1,...,F_m$ submodular and $\lambda_1,...,\lambda_m \geq 0 $ then
+
+$F(A) = \sum_i \lambda_i F_i(A)$ is submodular 
+
+\textbf{Restriction}: $F(S)$ submodular on V,where $W \subseteq V$. Then $F'(S) = F(S \cap W)$ is submodular.
+
+\textbf{Conditioning}: $F'(S) = F(S \cup W)$ is submodular.
+
+\textbf{Reflection}: $F'(S) = F(S \backslash W)$ is submodular.
+
+\subsection{General}
+\begin{itemize}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt]
+\item min, max are in general no submodular functions
+\item Submodular can be seen as \textbf{concave} functions
+\end{itemize} 
+
+\textbf{Concave} func.: 
+
+$\forall a \leq b, s \geq 0 : f(a+s)- f(a) \geq f(b+s) -f(b)$
+
+or $\lambda \in [0,1]: f(\lambda a+ (1-\lambda)s) \geq \lambda f(a) + (1-\lambda) f(b)$
+\subsection{Greedy sumbodular algo}
+$
+A_0=\{ s_0 \}
+$ in round i+1:	pick
+$s^* = argmax_s F( A_i \cup  \{s\} ) - F(A_i)$
+$; A_{i+1} = A_{i} \cup \{s^*\}$
+
+\subsection{Lazy Greedy optimisation}
+\begin{itemize}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt]
+\item first iteration as usual
+\item keep an ordered list of marginal benefits $\Delta_i$ from previous iteration
+\item 	Re-evaluate $\Delta_i$ only for the top most element.
+\item if $\Delta_i$ stays on top, use it otherwise resort
+\end{itemize}
+
+
+
+\section{Linear Algebra}
+
+\subsection{Convex Functions}
+$\forall x,y, \lambda \in [0,1] : \lambda f(x) + (1-\lambda)f(y) \geq f(\lambda x +  (1-\lambda) y)$
+
+Can be shown with 2nd derivative to be always positive.
+
+\subsection{H-Strong Convex}
+$f(y) \geq f(x) + \nabla f(x)^T(y-x) + {H \over 2 } || y - x ||_2^2$
+
+In 1D: $f''(x) \geq H$
+
+\subsection{Subgradient Functions}
+$\forall x' \in S : f(x') \geq f(x) + g_x^T(x'-x)$
+
+\subsection{Vector Norms}
+are positive scalable, full-fill the triangular inequality, norm of 0 is 0
+
+\paragraph{p-Norm}
+$ || x ||_p = \left( \sum_{i=1}^{n}{|x_i|^p} \right)^{\frac{1}{p}}$
+
+%\subsubsection{Euclidean Norm} 
+%p-Norm where $p=2$
+
+\paragraph{1-Norm}
+Manhattan-Norm
+$ ||x||_1 = \sum_{i=1}^{n}{|x_i|} $
+
+\paragraph{Zero-Norm} 
+counts the number of non-zero entries.
+
+\subsection{Matrix Norms}
+
+\paragraph{Nuclear Norm} $|| . ||_*$ sum of singular values
+
+
+\paragraph{Frobenious-Norm} $sqrt(sum(sum(A.^2)))$
+
+%\paragraph{Spectral Norm} Largest singular value if square 
+
+%$||A||_2 = \sigma_{max}(A)$ 
+%~~Is equals to the 2-Norm
+
+\paragraph{Induced Matrix Norms}
+$ ||A|| = max \left( \frac{ ||Ax|| }{ ||x|| } \right)$
+
+\subsection{Orthogonality}
+
+\paragraph{Vectors} 
+
+inner (scalar) product $\langle ~.~,~.~ \rangle = 0$
+
+\paragraph{Matrices} 
+
+quadratic, values are in $\mathbb{R}$, $Q^T = Q^{-1}$
+
+%\subsubsection{Functions}
+
+%$f(x)$ orth. to $g(x)$ if $0 = \int f(x) g(x) dx $
+
+%\subsubsection{Coherence}
+
+%$m(U)= max_{i,j:i\neq j} | u_i^T u_j|$
+
+\subsubsection{Convexity}
+
+$f(\theta x + (1-\theta)y) \leq \theta f(x) + (1-\theta) f(y)$
+
+\section{Differentials}
+
+$ f(g(x)) \frac{d}{dx} = f'(g(x)) \cdot g'(x)$, $ {d \over {dx}} log(x) = {1 \over x}$, $ {d \over {dx}} e^{ax} = ae^{ax}$
+
+
+${d \over {dx}} uv = u'v + uv', {d \over {dx}} {u \over v} = {u'v - uv' \over v^2 }$
+
+
+
+
+\section{Convex optimisation}
+
+minimize $f(x)$ subject to 
+
+$g_i(x) \leq 0, i = 1,...,m$ inequality constr.
+
+$h_i(x) = 0, i = 1,...,p$ equality constr.
+
+Create the Lagrangian
+
+$L(x, \lambda, \nu) = f(x) + \sum_{i=1}^m{\lambda_i g_i(x) + \sum_{i=1}^p{\nu_i h_i(x)}}$
+
+Lagrange dual function: $ d(\lambda, \nu) = \inf_{x} L (x,\lambda, \nu) $
+
+Lagrange dual problem: max. $d(\lambda, \nu)$  subj. to $\lambda \geq 0$
+
+\section{Probability}
+
+\textbf{Independence} $E[XY] = E[X] E[Y]$
+
+\textbf{Covariance}: $Cov(X_1, X_2) = E[X_1 X_2] - E[X_1] E[X_2] = E[(X_1 - E[X_1])(X_2-E[X_2])]$
+
+\textbf{Variance}: $Var[X] = E[X^2] - E[X]^2$
+
+
+\textbf{Chain rule}: $P(X,Y) = {{P(X,Y)P(Y)}\over{P(Y)}} = P(X|Y)P(Y)$
+
+%\section{Sidenotes}
+
+%\textbf{Curse of Dimensionality}: The more dimensions the closer data points get to each other on average in terms of euclidean distance.
+
+\end{document}
